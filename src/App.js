@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Web3 from "web3";
 import web3Modal from "./WalletModal";
-import {Button,Form} from 'react-bootstrap';
+import {Button, Container} from 'react-bootstrap';
 
 import hamburger from './images/hamburger.png';
 import icecream from './images/icecream.png';
@@ -15,11 +15,16 @@ import './App.css';
 
 import AlertModal from "./AlertModal";
 import SuccessModal from "./SuccessModal";
+import About from "./About";
+import Home from "./Home";
+import Portfolio from "./Portfolio";
+import products from "./derivatives";
 
 function App() {
 
     const [web3, setWeb3] = useState();
     const [account, setAccount] = useState();
+    const [page, setPage] = useState('home');
     const [firstClick, setFirstClick] = useState(true);
     const[showAlert, setShowAlert] = useState(false);
     const[showSuccess, setShowSuccess] = useState(false);
@@ -32,8 +37,6 @@ function App() {
 
         if(web3 && firstClick){
             setInterval(async () => {
-
-                console.log()
 
                 const network = await web3.eth.net.getId();
 
@@ -70,11 +73,15 @@ function App() {
     }
 
   return (
-    <div>
-
+      <div>
         <div className="d-flex justify-content-between p-4">
             <div>
                 <img  src={tvlLogo} height="45px" />
+            </div>
+            <div>
+                <Button variant="link" onClick={() => {setPage('home')}}> Home </Button>
+                <Button variant="link" onClick={() => {setPage('portfolio')}}> My Portfolio </Button>
+                <Button variant="link" onClick={() => {setPage('about')}}> About </Button>
             </div>
             <div>
                 <Button  style={{
@@ -89,10 +96,14 @@ function App() {
                 </Button>
             </div>
         </div>
-        <div style={{textAlign:'center', marginTop:50}}>
-            <p className="bigHeroText">TVL SNACKS</p>
-            <p className="smHeroText">All you can eat derivatives</p>
-        </div>
+
+
+          <div>
+              {(page === 'home')? <Home web3={web3} derivativesList={products}/> :<div></div>}
+              {(page === 'portfolio')? <Portfolio web3={web3} derivativesList={products}/> :<div></div>}
+              {(page === 'about')? <About/> :<div></div>}
+          </div>
+
         <FallingFoods />
         <AlertModal
             message={alertMessage}
@@ -134,6 +145,7 @@ function FallingFoods() {
                 <img  src={pretzl} height="75px" width="75px" />
             </div>
         </div>
+
     );
 }
 /*

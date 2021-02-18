@@ -1,11 +1,33 @@
 body {
   margin:0;
-  overflow:hidden;
+
   background-image: url("./images/light.png");
   background-position: center top;
   background-size: 100% auto;
 
 }
+
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+  background-color: rgb(235,27,72) !important;
+  border-color: rgb(235,27,72) !important;
+}
+
+.btn-primary:hover {
+  background-color: rgb(192,16,54) !important;
+}
+
+.btn-link, .btn-link:active, .btn-link:visited {
+  font-family: 'Modak', cursive;
+  font-size: 30px;
+  color: rgb(235,27,72) !important;
+}
+
+.btn-link:hover {
+  font-family: 'Modak', cursive;
+  font-size: 30px;
+  color: rgb(192,16,54) !important;
+}
+
 
 .bigHeroText{
   font-family: 'Modak', cursive;
@@ -108,11 +130,3 @@ body {
   transform: rotateX(180deg);
 }
 
-.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
-  background-color: rgb(235,27,72) !important;
-  border-color: rgb(235,27,72) !important;
-}
-
-.btn-primary:hover {
-  background-color: rgb(192,16,54) !important;
-}
