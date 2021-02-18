@@ -68,7 +68,6 @@ function RedeemEarly(props) {
                     <Button
                         onClick={() => { approve() }}
                         style={{width: '100%'}}
-                        variant="info"
                     >APPROVE</Button>
                 </div>
 
@@ -76,7 +75,6 @@ function RedeemEarly(props) {
                     <Button
                         onClick={() => { redeemEarly() }}
                         style={{width: '100%'}}
-                        variant="info"
                     >REDEEM EARLY</Button>
                 </div>
             </div>

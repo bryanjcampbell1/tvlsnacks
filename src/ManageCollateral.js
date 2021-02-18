@@ -112,19 +112,16 @@ function ManageCollateral(props) {
                     <Button
                         onClick={() => { approve() }}
                         style={{width: '100%'}}
-                        variant="info"
                     >APPROVE</Button>
 
                     <Button
                         onClick={() => { addCollateral() }}
                         style={{width: '100%', marginTop: 10}}
-                        variant="info"
                     >DEPOSIT</Button>
 
                     <Button
                         onClick={() => { requestWithdraw() }}
                         style={{width: '100%', marginTop: 10}}
-                        variant="info"
                     >REQUEST WITHDRAW</Button>
                 </div>
 
@@ -153,7 +150,6 @@ function ManageCollateral(props) {
                 <Button
                     onClick={() => { withdrawAfterLiveness() }}
                     style={{width: '100%', marginTop: 10}}
-                    variant="info"
                 >WITHDRAW</Button>
             </div>
 

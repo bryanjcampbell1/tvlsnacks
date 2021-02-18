@@ -7,6 +7,7 @@ body {
 
 }
 
+
 .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
   background-color: rgb(235,27,72) !important;
   border-color: rgb(235,27,72) !important;
@@ -17,14 +18,14 @@ body {
 }
 
 .btn-link, .btn-link:active, .btn-link:visited {
-  font-family: 'Modak', cursive;
-  font-size: 30px;
+  font-family: 'Modak', cursive !important;
+  font-size: 25px !important;
   color: rgb(235,27,72) !important;
 }
 
 .btn-link:hover {
-  font-family: 'Modak', cursive;
-  font-size: 30px;
+  font-family: 'Modak', cursive !important;
+  font-size: 25px !important;
   color: rgb(192,16,54) !important;
 }
 
@@ -121,7 +122,6 @@ body {
     transform:translateX (-20px) rotate(180deg);
   }
   100%{
-
     top:110%;
     transform:translateX (-20px) rotate(225deg);
   }

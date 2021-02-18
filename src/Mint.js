@@ -94,7 +94,6 @@ function Mint(props) {
                     <Button
                         onClick={() => { approve() }}
                         style={{width: '100%'}}
-                        variant="info"
                     >APPROVE</Button>
                 </div>
 
@@ -102,7 +101,6 @@ function Mint(props) {
                     <Button
                         onClick={() => { sponsorShares() }}
                         style={{width: '100%'}}
-                        variant="info"
                     >MINT</Button>
                 </div>
             </div>

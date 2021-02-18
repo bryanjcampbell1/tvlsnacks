@@ -11,7 +11,6 @@ import pizza from './images/pizza.png';
 import pretzl from './images/pretzl.png';
 import hotdog from './images/hotdog.png';
 import tvlLogo from './images/tvl_logo1.png'
-import './App.css';
 
 import AlertModal from "./AlertModal";
 import SuccessModal from "./SuccessModal";
@@ -19,6 +18,8 @@ import About from "./About";
 import Home from "./Home";
 import Portfolio from "./Portfolio";
 import products from "./derivatives";
+
+import './App.css';
 
 function App() {
 
@@ -40,7 +41,7 @@ function App() {
 
                 const network = await web3.eth.net.getId();
 
-                if(network !== 3){
+                if(network !== 42){
                     setAlertMessage("Connect Wallet to Kovan");
                     setShowAlert(true);
                     return

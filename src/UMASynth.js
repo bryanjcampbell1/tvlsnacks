@@ -22,8 +22,8 @@ function UMASynth(props){
 
     return (
         <div style={box}>
-            <p style={{fontSize: 20,
-                fontWeight: '600'}}>{props.tokenName}</p>
+            <p style={{ fontSize: 20,
+                fontWeight: '900'}}>{props.tokenName}</p>
             <div style={{
                 backgroundColor:'#ff7961',
                 height:5,
@@ -41,21 +41,21 @@ function UMASynth(props){
                             fontWeight: '600'}}>Price if Settled Today
                         </p>
                         <div style={{marginTop:40}}>
-                            <Button variant="info"
+                            <Button
                                     style={{width:300}}
                                     href={`https://app.uniswap.org/#/swap?inputCurrency=${props.tokenAddress}&outputCurrency=ETH`}
                             >BUY / SELL</Button>
                         </div>
                         <br/>
                         <div>
-                            <Button variant="info"
+                            <Button
                                     style={{width:300}}
                                     onClick={() => setScreen(1)}
                             >MINT</Button>
                         </div>
                         <br/>
                         <div>
-                            <Button variant="info"
+                            <Button
                                     style={{width:300}}
                                     href={`https://app.uniswap.org/#/add/${props.tokenAddress}/ETH`}
                             >PROVIDE LIQUIDITY</Button>
@@ -133,6 +133,8 @@ const box = {
     border:'6px solid #ff7961',
     borderRadius:10,
     padding:20,
+    textAlign:'center',
+    color:'rgb(192,16,54)'
 
 }
 
