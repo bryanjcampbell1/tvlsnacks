@@ -1,38 +1,118 @@
-.App {
-  text-align: center;
+body {
+  margin:0;
+  overflow:hidden;
+  background-image: url("./images/light.png");
+  background-position: center top;
+  background-size: 100% auto;
+
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.bigHeroText{
+  font-family: 'Modak', cursive;
+  font-size: 120px;
+  color: rgb(235,27,72);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.smHeroText{
+  font-family: 'Modak', cursive;
+  font-size: 50px;
+  color: rgb(235,27,72);
+}
+
+.leaf{
+
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+}
+.leaf div{
+  position:absolute ;
+  display:block ;
+  z-index: -1;
+}
+.leaf div:nth-child(1){
+  top:-20%;
+  left:20%;
+  animation:fall 15s linear;
+  animation-delay:20s;
+
+}
+.leaf div:nth-child(2){
+  top:-20%;
+  left:70%;
+  animation:fall 30s linear;
+  animation-delay:30s;
+}
+.leaf div:nth-child(3){
+  top:-20%;
+  left:50%;
+  animation:fall 20s linear;
+  animation-delay:10s;
+
+}
+.leaf div:nth-child(4){
+  top:-20%;
+  left:30%;
+  animation:fall 18s linear;
+  animation-delay:100s;
+}
+.leaf div:nth-child(5){
+  top:-20%;
+  left:95%;
+  animation:fall 14s linear;
+  animation-delay:80s;
+}
+.leaf div:nth-child(6){
+  top:-20%;
+  left:5%;
+  animation:fall 16s linear;
+  animation-delay:18s;
+}
+.leaf div:nth-child(7){
+  top:-20%;
+  left:80%;
+  animation:fall 15s linear;
+  animation-delay:60s;
+}
+
+@keyframes fall{
+  0%{
+    opacity:1;
+    top:-10%;
+    transform:translateX (20px) rotate(0deg);
+  }
+  20%{
+    opacity:0.8;
+    transform:translateX (-20px) rotate(45deg);
+  }
+  40%{
+
+    transform:translateX (-20px) rotate(90deg);
+  }
+  60%{
+
+    transform:translateX (-20px) rotate(135deg);
+  }
+  80%{
+
+    transform:translateX (-20px) rotate(180deg);
+  }
+  100%{
+
+    top:110%;
+    transform:translateX (-20px) rotate(225deg);
   }
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.leaf1{
+  transform: rotateX(180deg);
 }
 
-.App-link {
-  color: #61dafb;
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+  background-color: rgb(235,27,72) !important;
+  border-color: rgb(235,27,72) !important;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.btn-primary:hover {
+  background-color: rgb(192,16,54) !important;
 }

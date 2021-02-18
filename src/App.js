@@ -1,25 +1,201 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+import Web3 from "web3";
+import web3Modal from "./WalletModal";
+import {Button,Form} from 'react-bootstrap';
+
+import hamburger from './images/hamburger.png';
+import icecream from './images/icecream.png';
+import doughnut from './images/doughnut.png';
+import taco from './images/taco.png';
+import pizza from './images/pizza.png';
+import pretzl from './images/pretzl.png';
+import hotdog from './images/hotdog.png';
+import tvlLogo from './images/tvl_logo1.png'
 import './App.css';
 
+import AlertModal from "./AlertModal";
+import SuccessModal from "./SuccessModal";
+
 function App() {
+
+    const [web3, setWeb3] = useState();
+    const [account, setAccount] = useState();
+    const [firstClick, setFirstClick] = useState(true);
+    const[showAlert, setShowAlert] = useState(false);
+    const[showSuccess, setShowSuccess] = useState(false);
+    const[alertMessage, setAlertMessage] = useState("");
+    const[successMessage, setSuccessMessage] = useState("");
+
+    useEffect(() => {
+        console.log('account: ', account);
+        console.log('web3: ', web3);
+
+        if(web3 && firstClick){
+            setInterval(async () => {
+
+                console.log()
+
+                const network = await web3.eth.net.getId();
+
+                if(network !== 3){
+                    setAlertMessage("Connect Wallet to Kovan");
+                    setShowAlert(true);
+                    return
+                }
+
+                let newAccount = (await web3.eth.getAccounts())[0];
+
+                if (newAccount !== account) {
+                    setAccount(newAccount);
+                }
+
+            }, 1000);
+            setFirstClick(false);
+
+        }
+
+    }, [web3])
+
+    const loadWeb3 =  async() => {
+
+        console.log('inside');
+
+        const provider = await web3Modal.connect();
+        const _web3 = await new Web3(provider);
+        let _account = (await _web3.eth.getAccounts())[0];
+
+        setAccount(_account);
+        setWeb3(_web3);
+
+    }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+
+        <div className="d-flex justify-content-between p-4">
+            <div>
+                <img  src={tvlLogo} height="45px" />
+            </div>
+            <div>
+                <Button  style={{
+                    height:40,
+                    width:168
+                }} onClick={loadWeb3}>
+                    {(!account)?
+                        "CONNECT WALLET"
+                        :
+                        `${account.substring(0,6)}...${account.slice(account.length - 4)}`
+                    }
+                </Button>
+            </div>
+        </div>
+        <div style={{textAlign:'center', marginTop:50}}>
+            <p className="bigHeroText">TVL SNACKS</p>
+            <p className="smHeroText">All you can eat derivatives</p>
+        </div>
+        <FallingFoods />
+        <AlertModal
+            message={alertMessage}
+            show={showAlert}
+            onHide={() => setShowAlert(false)}
+        />
+        <SuccessModal
+            message={successMessage}
+            show={showSuccess}
+            onHide={() => setShowSuccess(false)}
+        />
     </div>
   );
 }
 
 export default App;
+
+
+function FallingFoods() {
+
+    return (
+        <div className="leaf" >
+            <div>
+                <img src={hamburger} height="75px" width="75px" />
+            </div>
+            <div>
+                <img src={doughnut} height="75px" width="75px" />
+            </div>
+            <div>
+                <img  src={pizza} height="75px" width="75px" />
+            </div>
+            <div>
+                <img src={taco} height="75px" width="75px" />
+            </div>
+            <div>
+                <img src={icecream} height="75px" width="75px" />
+            </div>
+            <div>
+                <img  src={pretzl} height="75px" width="75px" />
+            </div>
+        </div>
+    );
+}
+/*
+<div>
+      <div style={{backgroundColor:'grey', color: 'white', height:60}}>
+        <p> TVL Snacks </p>
+      </div>
+
+
+      <div className="leaf" style={{marginLeft:-88}}>
+        <div>
+          <img src={hamburger} height="75px" width="75px" />
+        </div>
+        <div>
+          <img src={hotdog} height="75px" width="75px" />
+        </div>
+        <div>
+          <img  src={doughnut} height="75px" width="75px" />
+        </div>
+      </div>
+
+      <div className="leaf leaf1">
+        <div>
+          <img src={icecream} height="75px" width="75px" />
+        </div>
+        <div>
+          <img src={pizza} height="75px" width="75px" />
+        </div>
+        <div>
+          <img src={pretzl} height="75px" width="75px" />
+        </div>
+      </div>
+      <div className="leaf leaf2" style={{marginLeft:'250px'}}>
+        <div>
+          <img src={taco} height="75px" width="75px" />
+        </div>
+
+        <div>
+          <img src={hamburger} height="75px" width="75px" />
+        </div>
+      </div>
+    </div>
+ */
+/*
+<div className="leaf" >
+        <div>
+          <img src={hamburger} height="75px" width="75px" />
+        </div>
+        <div>
+          <img src={doughnut} height="75px" width="75px" />
+        </div>
+        <div>
+          <img  src={pizza} height="75px" width="75px" />
+        </div>
+          <div>
+              <img src={taco} height="75px" width="75px" />
+          </div>
+          <div>
+              <img src={icecream} height="75px" width="75px" />
+          </div>
+          <div>
+              <img  src={pretzl} height="75px" width="75px" />
+          </div>
+      </div>
+ */
