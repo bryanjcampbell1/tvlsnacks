@@ -1,44 +1,80 @@
 import {Button, Form} from "react-bootstrap";
 import React, {useState} from "react";
 import {empABI,erc20ABI} from "./ABI";
+import AlertModal from "./AlertModal";
+import SuccessModal from "./SuccessModal";
 
 function RedeemEarly(props) {
 
     const [amount, setAmount ] = useState(0);
 
+    const[showAlert, setShowAlert] = useState(false);
+    const[showSuccess, setShowSuccess] = useState(false);
+    const[alertMessage, setAlertMessage] = useState("");
+    const[successMessage, setSuccessMessage] = useState("");
+
     const  approve = async() => {
 
-        let redeemAmount = props.web3.utils.toWei(amount.toString());
-        //let redeemAmount = props.web3.utils.toWei("10000");
 
-        const fromAddress = (await props.web3.eth.getAccounts())[0];
-        const synthToken = new props.web3.eth.Contract(erc20ABI,props.synthAddress);
 
-        try{
-            await synthToken.methods.approve(
-                props.empAddress,
-                redeemAmount
-            ).send({from: fromAddress})
+        if(props.web3) {
+
+            const network = await props.web3.eth.net.getId();
+
+            if (network !== 42) {
+                setAlertMessage("Connect Wallet to Mainnet");
+                setShowAlert(true);
+                return
+            }
+
+            let redeemAmount = props.web3.utils.toWei(amount.toString());
+            const fromAddress = (await props.web3.eth.getAccounts())[0];
+            const synthToken = new props.web3.eth.Contract(erc20ABI,props.synthAddress);
+
+            try{
+                await synthToken.methods.approve(
+                    props.empAddress,
+                    redeemAmount
+                ).send({from: fromAddress})
+            }
+            catch(e){
+                console.log("error: ", e)
+                return
+            }
         }
-        catch(e){
-            console.log("error: ", e)
-            return
+        else{
+            setAlertMessage("Connect Wallet to Continue");
+            setShowAlert(true);
         }
-
     }
 
     const redeemEarly = async() => {
 
-        const fromAddress = (await props.web3.eth.getAccounts())[0];
-        let emp = new props.web3.eth.Contract(empABI, props.empAddress);
+        if(props.web3) {
 
-        let redeemAmount = props.web3.utils.toWei(amount.toString());
+            const network = await props.web3.eth.net.getId();
 
-        await emp.methods.redeem({ rawValue: redeemAmount }).send({from: fromAddress})
-            .then(function(receipt){
-                // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
-                console.log(receipt);
-            });
+            if (network !== 42) {
+                setAlertMessage("Connect Wallet to Mainnet");
+                setShowAlert(true);
+                return
+            }
+
+            const fromAddress = (await props.web3.eth.getAccounts())[0];
+            let emp = new props.web3.eth.Contract(empABI, props.empAddress);
+
+            let redeemAmount = props.web3.utils.toWei(amount.toString());
+
+            await emp.methods.redeem({ rawValue: redeemAmount }).send({from: fromAddress})
+                .then(function(receipt){
+                    // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
+                    console.log(receipt);
+                });
+        }
+        else{
+            setAlertMessage("Connect Wallet to Continue");
+            setShowAlert(true);
+        }
     }
 
     return(
@@ -78,6 +114,16 @@ function RedeemEarly(props) {
                     >REDEEM EARLY</Button>
                 </div>
             </div>
+            <AlertModal
+                message={alertMessage}
+                show={showAlert}
+                onHide={() => setShowAlert(false)}
+            />
+            <SuccessModal
+                message={successMessage}
+                show={showSuccess}
+                onHide={() => setShowSuccess(false)}
+            />
         </div>
     );
 }

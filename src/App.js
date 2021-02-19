@@ -42,7 +42,7 @@ function App() {
                 const network = await web3.eth.net.getId();
 
                 if(network !== 42){
-                    setAlertMessage("Connect Wallet to Kovan");
+                    setAlertMessage("Connect Wallet to Mainnet");
                     setShowAlert(true);
                     return
                 }
@@ -87,7 +87,7 @@ function App() {
             <div>
                 <Button  style={{
                     height:40,
-                    width:168
+                    width:175
                 }} onClick={loadWeb3}>
                     {(!account)?
                         "CONNECT WALLET"

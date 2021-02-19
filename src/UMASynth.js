@@ -44,6 +44,7 @@ function UMASynth(props){
                             <Button
                                     style={{width:300}}
                                     href={`https://app.uniswap.org/#/swap?inputCurrency=${props.tokenAddress}&outputCurrency=ETH`}
+                                    target="_blank"
                             >BUY / SELL</Button>
                         </div>
                         <br/>
@@ -58,6 +59,7 @@ function UMASynth(props){
                             <Button
                                     style={{width:300}}
                                     href={`https://app.uniswap.org/#/add/${props.tokenAddress}/ETH`}
+                                    target="_blank"
                             >PROVIDE LIQUIDITY</Button>
                         </div>
                         <div style={{display:'flex', justifyContent:'center'}}>

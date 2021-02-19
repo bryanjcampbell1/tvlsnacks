@@ -196,17 +196,18 @@ function Portfolio(props){
                     <div style={{display: 'flex',justifyContent:'center'}}>
                         <div style={box2}>
                             <p style={{
-                                color:'#ff7961',
+                                color:'rgb(235,27,72)',
                                 fontSize: 25,
-                                fontWeight: '900',}}>Unlock Wallet</p>
+                                fontWeight: '900',
+                            }}>Unlock Wallet</p>
                             <p style={{
                                 marginTop:-12,
-                                color:'#ff7961',
+                                color:'rgb(235,27,72)',
                                 fontSize: 25,
                                 fontWeight: '900',}}>to </p>
                             <p style={{
                                 marginTop:-12,
-                                color:'#ff7961',
+                                color:'rgb(235,27,72)',
                                 fontSize: 25,
                                 fontWeight: '900',}}>Continue</p>
                         </div>
