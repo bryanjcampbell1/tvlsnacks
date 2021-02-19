@@ -7,8 +7,6 @@ import {Button, Row, Col, Container} from 'react-bootstrap';
 
 function Home(props){
 
-    const [currentValue, setCurrentValue] =useState(0)
-
     return(
         <div>
             <div style={{textAlign:'center', marginTop:50}}>
@@ -24,6 +22,7 @@ function Home(props){
                                     <div className="w-100" style={{maxWidth:400 }}>
 
                                         <UMASynth
+                                              priceId={row.priceId}
                                               project={row.project}
                                               tokenName={row.tokenName}
                                               tokenAddress={row.tokenAddress}
@@ -32,10 +31,9 @@ function Home(props){
                                               collateralAddress={row.collateralAddress}
                                               web3={props.web3}
                                               description={row.description}
-                                              currentPrice={currentValue}
                                               multiplyBy={Number(row.multiplyFactor)}
                                               divideBy={Number(row.divideFactor)}
-                                              priceData={props.priceData}
+                                              prices={props.prices}
                                         />
                                     </div>
                                 </Container>

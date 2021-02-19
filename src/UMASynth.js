@@ -19,13 +19,19 @@ function UMASynth(props){
 
     useEffect(() => {
         //
-        if(props.tokenName === "KOVAN_TEST-APRIL"){
-            let price = Number(props.priceData.All)/Number(1000000000);
-            setCurrentPrice(price);
+        let price = 0;
+        if((props.priceId === "DEFI_PULSE_TOTAL_TVL" && (props.prices.length != 0))){
+            price = props.prices.filter(project => project.priceId === "DEFI_PULSE_TOTAL_TVL" )[0].price;
         }
+        else if((props.priceId === "SUSHIUNI_TVL" && (props.prices.length != 0))){
+            price = props.prices.filter(project => project.priceId === "SUSHIUNI_TVL" )[0].price;
+        }
+        else{
+            console.log('no matching priceId found')
+        }
+        setCurrentPrice(price);
 
-
-    }, [])
+    }, [props])
 
 
 
@@ -44,7 +50,7 @@ function UMASynth(props){
                     <div>
 
                         <p style={{marginTop:20, color:'grey', fontSize:40, fontWeight:900}}>$
-                            {Number(props.multiplyBy*parseFloat(currentPrice)/props.divideBy).toFixed(2)}
+                            {Number(currentPrice).toFixed(2)}
                         </p>
                         <p style={{fontSize: 18,
                             fontWeight: '600'}}>Price if Settled Today

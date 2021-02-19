@@ -22,7 +22,7 @@ import products from "./derivatives";
 import './App.css';
 
 const axios = require('axios');
-require('dotenv').config();
+
 
 function App() {
 
@@ -35,6 +35,8 @@ function App() {
     const[showSuccess, setShowSuccess] = useState(false);
     const[alertMessage, setAlertMessage] = useState("");
     const[successMessage, setSuccessMessage] = useState("");
+
+    const[currentPrices, setCurrentPrices] = useState([])
 
     useEffect(() => {
 
@@ -80,6 +82,7 @@ function App() {
     const getCurrentPrices =  async() => {
 
         let allProjects = [];
+
         let apikey = process.env.DEFIPULSE_API_KEY;
         await axios.get(`https://data-api.defipulse.com/api/v1/defipulse/api/MarketData?api-key=${apikey}`)
             .then(function (response) {
@@ -114,8 +117,27 @@ function App() {
                     }
                 )
 
-                console.log(allProjects);
+                let prices = []
 
+                let defipulseTVL_ALL = {
+                    priceId: 'DEFI_PULSE_TOTAL_TVL',
+                    price: Number(Number(allProjects.filter(project => project.name === 'All' )[0].tvl)/1000000000).toFixed(6)
+                }
+
+                prices.push(defipulseTVL_ALL);
+
+                let sushi = Number(allProjects.filter(project => project.name === 'SushiSwap' )[0].tvl);
+                let uni = Number(allProjects.filter(project => project.name === 'Uniswap' )[0].tvl);
+
+                let sushiuni_TVL = {
+                    priceId: 'SUSHIUNI_TVL',
+                    price: Number(10*sushi/uni).toFixed(6)
+                }
+
+                prices.push(sushiuni_TVL);
+                setCurrentPrices(prices);
+
+                console.log(prices)
             })
             .catch(function (error) {
                 // handle error
@@ -153,8 +175,8 @@ function App() {
 
 
           <div>
-              {(page === 'home')? <Home web3={web3} derivativesList={products} priceData={priceData}/> :<div></div>}
-              {(page === 'portfolio')? <Portfolio web3={web3} derivativesList={products} priceData={priceData}/> :<div></div>}
+              {(page === 'home')? <Home web3={web3} derivativesList={products} prices={currentPrices}/> :<div></div>}
+              {(page === 'portfolio')? <Portfolio web3={web3} derivativesList={products} prices={currentPrices}/> :<div></div>}
               {(page === 'about')? <About/> :<div></div>}
           </div>
 
