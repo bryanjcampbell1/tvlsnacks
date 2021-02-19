@@ -1,14 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import { Button,Form } from 'react-bootstrap';
 import {ChevronLeft,DashCircle,PlusCircle} from 'react-bootstrap-icons';
 
 import './App.css';
 import Mint from "./Mint";
-
-
-const axios = require('axios');
-
 
 function UMASynth(props){
 
@@ -18,6 +14,19 @@ function UMASynth(props){
     const [type, setType] = useState();
     const [moreDetails, setMoreDetails] = useState(0);
     const [warning, setWarning] = useState("");
+
+    const [currentPrice, setCurrentPrice] = useState(0);
+
+    useEffect(() => {
+        //
+        if(props.tokenName === "KOVAN_TEST-APRIL"){
+            let price = Number(props.priceData.All)/Number(1000000000);
+            setCurrentPrice(price);
+        }
+
+
+    }, [])
+
 
 
     return (
@@ -35,7 +44,7 @@ function UMASynth(props){
                     <div>
 
                         <p style={{marginTop:20, color:'grey', fontSize:40, fontWeight:900}}>$
-                            {Number(props.multiplyBy*parseFloat(props.currentPrice)/props.divideBy).toFixed(2)}
+                            {Number(props.multiplyBy*parseFloat(currentPrice)/props.divideBy).toFixed(2)}
                         </p>
                         <p style={{fontSize: 18,
                             fontWeight: '600'}}>Price if Settled Today

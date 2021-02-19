@@ -23,7 +23,8 @@ function Home(props){
                                 <Container key={key} className="d-flex justify-content-center align-items-center" style={{minHeight:"100vh"}}>
                                     <div className="w-100" style={{maxWidth:400 }}>
 
-                                        <UMASynth project={row.project}
+                                        <UMASynth
+                                              project={row.project}
                                               tokenName={row.tokenName}
                                               tokenAddress={row.tokenAddress}
                                               expires={row.expires}
@@ -34,6 +35,7 @@ function Home(props){
                                               currentPrice={currentValue}
                                               multiplyBy={Number(row.multiplyFactor)}
                                               divideBy={Number(row.divideFactor)}
+                                              priceData={props.priceData}
                                         />
                                     </div>
                                 </Container>

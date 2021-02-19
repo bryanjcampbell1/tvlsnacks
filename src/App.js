@@ -21,11 +21,15 @@ import products from "./derivatives";
 
 import './App.css';
 
+const axios = require('axios');
+require('dotenv').config();
+
 function App() {
 
     const [web3, setWeb3] = useState();
     const [account, setAccount] = useState();
     const [page, setPage] = useState('home');
+    const [priceData, setPriceData] = useState([]);
     const [firstClick, setFirstClick] = useState(true);
     const[showAlert, setShowAlert] = useState(false);
     const[showSuccess, setShowSuccess] = useState(false);
@@ -33,8 +37,6 @@ function App() {
     const[successMessage, setSuccessMessage] = useState("");
 
     useEffect(() => {
-        console.log('account: ', account);
-        console.log('web3: ', web3);
 
         if(web3 && firstClick){
             setInterval(async () => {
@@ -57,6 +59,8 @@ function App() {
             setFirstClick(false);
 
         }
+        getCurrentPrices();
+
 
     }, [web3])
 
@@ -70,6 +74,55 @@ function App() {
 
         setAccount(_account);
         setWeb3(_web3);
+
+    }
+
+    const getCurrentPrices =  async() => {
+
+        let allProjects = [];
+        let apikey = process.env.DEFIPULSE_API_KEY;
+        await axios.get(`https://data-api.defipulse.com/api/v1/defipulse/api/MarketData?api-key=${apikey}`)
+            .then(function (response) {
+                // handle success
+                let allTVL = {
+                    "name": "All",
+                    "tvl": response.data.All.total
+                };
+                allProjects.push(allTVL);
+
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+
+        await axios.get(`https://data-api.defipulse.com/api/v1/defipulse/api/GetProjects?api-key=${apikey}`)
+            .then(function (response) {
+                // handle success
+
+                response.data.forEach(project =>{
+                        let name = project.name;
+                        let tvl = project.value.tvl.USD.value;
+
+                        let projectTVL ={
+                            "name": name,
+                            "tvl": tvl
+                        }
+
+                    allProjects.push(projectTVL);
+
+                    }
+                )
+
+                console.log(allProjects);
+
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+
+        setPriceData(allProjects);
 
     }
 
@@ -100,8 +153,8 @@ function App() {
 
 
           <div>
-              {(page === 'home')? <Home web3={web3} derivativesList={products}/> :<div></div>}
-              {(page === 'portfolio')? <Portfolio web3={web3} derivativesList={products}/> :<div></div>}
+              {(page === 'home')? <Home web3={web3} derivativesList={products} priceData={priceData}/> :<div></div>}
+              {(page === 'portfolio')? <Portfolio web3={web3} derivativesList={products} priceData={priceData}/> :<div></div>}
               {(page === 'about')? <About/> :<div></div>}
           </div>
 
@@ -149,66 +202,4 @@ function FallingFoods() {
 
     );
 }
-/*
-<div>
-      <div style={{backgroundColor:'grey', color: 'white', height:60}}>
-        <p> TVL Snacks </p>
-      </div>
 
-
-      <div className="leaf" style={{marginLeft:-88}}>
-        <div>
-          <img src={hamburger} height="75px" width="75px" />
-        </div>
-        <div>
-          <img src={hotdog} height="75px" width="75px" />
-        </div>
-        <div>
-          <img  src={doughnut} height="75px" width="75px" />
-        </div>
-      </div>
-
-      <div className="leaf leaf1">
-        <div>
-          <img src={icecream} height="75px" width="75px" />
-        </div>
-        <div>
-          <img src={pizza} height="75px" width="75px" />
-        </div>
-        <div>
-          <img src={pretzl} height="75px" width="75px" />
-        </div>
-      </div>
-      <div className="leaf leaf2" style={{marginLeft:'250px'}}>
-        <div>
-          <img src={taco} height="75px" width="75px" />
-        </div>
-
-        <div>
-          <img src={hamburger} height="75px" width="75px" />
-        </div>
-      </div>
-    </div>
- */
-/*
-<div className="leaf" >
-        <div>
-          <img src={hamburger} height="75px" width="75px" />
-        </div>
-        <div>
-          <img src={doughnut} height="75px" width="75px" />
-        </div>
-        <div>
-          <img  src={pizza} height="75px" width="75px" />
-        </div>
-          <div>
-              <img src={taco} height="75px" width="75px" />
-          </div>
-          <div>
-              <img src={icecream} height="75px" width="75px" />
-          </div>
-          <div>
-              <img  src={pretzl} height="75px" width="75px" />
-          </div>
-      </div>
- */
