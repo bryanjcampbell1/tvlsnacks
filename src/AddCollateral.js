@@ -83,11 +83,7 @@ function AddCollateral(props) {
     }
 
     return(
-        <div style={{
-            display:'flex',
-            flexDirection:'column',
-            alignItems:'center'
-        }}>
+        <div style={{width:'100%', textAlign:'start', display:'flex', flexDirection:'column'}}>
 
             <div style={{textAlign:'center'}}>
                 <p style={{fontSize: 20,
@@ -102,7 +98,7 @@ function AddCollateral(props) {
                             <div style={{display:'flex', justifyContent:'flex start'}}>
                                 <DashCircle style={{marginTop:5}} onClick={() => setMoreDetails(0)}/>
                                 <p  style={{marginLeft:6, fontSize: 16,
-                                    fontWeight: '600'}} onClick={() => setMoreDetails(0)}>Details</p>
+                                    fontWeight: 'bold'}} onClick={() => setMoreDetails(0)}>Details</p>
                             </div>
                             <p style={{
                                 fontSize: 16,
@@ -133,7 +129,7 @@ function AddCollateral(props) {
                             <div style={{display:'flex', justifyContent:'flex start'}}>
                                 <PlusCircle style={{ marginTop:5}} onClick={() => setMoreDetails(true)}/>
                                 <p style={{marginLeft:6, fontSize: 16,
-                                    fontWeight: '600'}} onClick={() => setMoreDetails(true)}>Details</p>
+                                    fontWeight: 'bold'}} onClick={() => setMoreDetails(true)}>Details</p>
                             </div>
                         </div>
 
@@ -148,12 +144,12 @@ function AddCollateral(props) {
                                 placeholder="Collateral Amount" />
                         </Form.Group>
                     </Form>
-                    <p>Step 1: Approve spending collateral</p>
+                    <p style={{fontWeight:'bold'}}>Step 1: Approve spending collateral</p>
                     <Button
                         onClick={() => { approve() }}
                         style={{width: '100%',marginTop: -10}}
                     >APPROVE</Button>
-                    <p style={{marginTop:10}}>Step 2: Add Collateral</p>
+                    <p style={{marginTop:10, fontWeight:'bold'}}>Step 2: Add Collateral</p>
                     <Button
                         onClick={() => { addCollateral() }}
                         style={{width: '100%', marginTop: -10}}

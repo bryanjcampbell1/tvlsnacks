@@ -144,13 +144,13 @@ function WithdrawCollateral(props) {
                                 placeholder="Collateral Amount" />
                         </Form.Group>
                     </Form>
-                    <p style={{marginTop:10}}>Step 1: Request Withdraw</p>
+                    <p style={{marginTop:10, fontWeight:'bold'}}>Step 1: Request Withdraw</p>
                     <Button
                         onClick={() => { requestWithdraw() }}
                         style={{width: '100%', marginTop:-10}}
                     >REQUEST WITHDRAW</Button>
-                    <p style={{marginTop:10}}>Step 2: Withdraw</p>
-                    <div style={{marginTop:-10, width:420, display:'flex', justifyContent:'center', border: '1px solid rgb(235,27,72)', borderRadius:'5px',padding:10 }} >
+                    <p style={{marginTop:10, fontWeight:'bold'}}>Step 2: Withdraw</p>
+                    <div style={{marginTop:-10, width:'100%', border: '1px solid rgb(235,27,72)', borderRadius:'5px',padding:10 }} >
                         <p style={{
                             fontSize: 16,
                             fontWeight: '500',

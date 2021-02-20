@@ -4,8 +4,7 @@ import {Form,Button} from 'react-bootstrap';
 import Mint from './Mint'
 import AddCollateral from "./AddCollateral";
 import WithdrawCollateral from "./WithdrawCollateral";
-import RedeemEarly from "./RedeemEarly";
-import RedeemAtExpiration from "./RedeemAtExpiration";
+import Redeem from "./Redeem";
 
 import {empABI,erc20ABI} from "./ABI";
 import AlertModal from "./AlertModal";
@@ -21,6 +20,7 @@ function Portfolio(props){
     const [collateralName, setCollateralName] = useState('');
     const [collateralAddress, setCollateralAddress] = useState('');
     const [minMint,setMinMint] = useState(0);
+    const [expirationTimestamp, setExpirationTimestamp] = useState(0);
 
     //Info on Position
     const [synthBalance, setSynthBalance] = useState(0);
@@ -75,6 +75,7 @@ function Portfolio(props){
         setMinCRatio(synth.minCollateralRatio);
         setPriceId(synth.priceId);
         setMinMint(synth.minMint);
+        setExpirationTimestamp(Number(synth.expirationTimestamp));
 
         const network = await props.web3.eth.net.getId();
 
@@ -136,8 +137,9 @@ function Portfolio(props){
                                         width: '100%'
                                     }}>
                                         <p style={{
-                                            fontSize: 18,
-                                            fontWeight: '600',
+                                            fontSize: 20,
+                                            fontWeight: '900',
+
                                         }}>My Balance</p>
                                         <p style={{
                                             fontSize: 20,
@@ -154,13 +156,13 @@ function Portfolio(props){
                                     width: '100%',
                                 }}>
                                     <Button onClick={() => setAction('mint')} style={button1}>MINT</Button>
-                                    <Button onClick={() => setAction('add')} style={button1}>ADD
-                                        COLLATERAL</Button>
-                                    <Button onClick={() => setAction('withdraw')} style={button1}>WITHDRAW
-                                        COLLATERAL</Button>
-                                    <Button onClick={() => setAction('redeemEarly')} style={button1}>REDEEM
-                                        EARLY</Button>
-                                    <Button onClick={() => setAction('redeem')} style={button1}>REDEEM EXPIRED</Button>
+                                    <Button onClick={() => setAction('add')} style={button1}>
+                                        ADD COLLATERAL
+                                    </Button>
+                                    <Button onClick={() => setAction('withdraw')} style={button1}>
+                                        WITHDRAW COLLATERAL
+                                    </Button>
+                                    <Button onClick={() => setAction('redeem')} style={button1}>REDEEM TOKENS</Button>
                                 </div>
 
                             </div>
@@ -219,8 +221,8 @@ function Portfolio(props){
                                         :
                                         <div></div>
                                     }
-                                    {(action === 'redeemEarly') ?
-                                        <RedeemEarly
+                                    {(action === 'redeem') ?
+                                        <Redeem
                                             web3={props.web3}
                                             synthAddress={synthAddress}
                                             empAddress={empAddress}
@@ -229,21 +231,9 @@ function Portfolio(props){
                                             synthName={synthName}
                                             minMint={minMint}
                                             updateBalances={() => {setTouch(touch + 1)}}
+                                            expirationTimestamp={expirationTimestamp}
                                         />
                                         :
-                                        <div></div>
-                                    }
-                                    {(action === 'redeem') ?
-                                        <RedeemAtExpiration
-                                            web3={props.web3}
-                                            synthAddress={synthAddress}
-                                            empAddress={empAddress}
-                                            collateralAddress={collateralAddress}
-                                            collateralName={collateralName}
-                                            synthName={synthName}
-                                            updateBalances={() => {setTouch(touch + 1)}}
-                                        />
-                                            :
                                         <div></div>
                                     }
                                 </div>

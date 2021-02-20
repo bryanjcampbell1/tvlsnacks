@@ -118,7 +118,7 @@ function Mint(props) {
                             <div style={{display:'flex', justifyContent:'flex start'}}>
                                 <DashCircle style={{marginTop:5}} onClick={() => setMoreDetails(0)}/>
                                 <p  style={{marginLeft:6, fontSize: 16,
-                                    fontWeight: '600'}} onClick={() => setMoreDetails(0)}>Details</p>
+                                    fontWeight: 'bold'}} onClick={() => setMoreDetails(0)}>Details</p>
                             </div>
                             <p style={{
                                 fontSize: 16,
@@ -152,7 +152,7 @@ function Mint(props) {
                             <div style={{display:'flex', justifyContent:'flex start'}}>
                                 <PlusCircle style={{ marginTop:5}} onClick={() => setMoreDetails(true)}/>
                                 <p style={{marginLeft:6, fontSize: 16,
-                                    fontWeight: '600'}} onClick={() => setMoreDetails(true)}>Details</p>
+                                    fontWeight: 'bold'}} onClick={() => setMoreDetails(true)}>Details</p>
                             </div>
                         </div>
 
@@ -177,14 +177,14 @@ function Mint(props) {
                         </Form.Group>
                     </Form>
 
-                    <p>Step 1: Approve spending collateral</p>
+                    <p style={{fontWeight:'bold'}}>Step 1: Approve spending collateral</p>
                     <div>
                         <Button
                             onClick={() => { approve() }}
                             style={{width: '100%'}}
                         >APPROVE</Button>
                     </div>
-                    <p style={{marginTop:10}}>Step 2: Mint shiny new tokens!</p>
+                    <p style={{marginTop:10, fontWeight:'bold'}}>Step 2: Mint shiny new tokens!</p>
                     <div>
                         <Button
                             onClick={() => { sponsorShares() }}

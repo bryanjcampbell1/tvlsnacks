@@ -82,33 +82,31 @@ function RedeemAtExpiration(props) {
             alignItems:'center'
         }}>
             <p style={{
-                fontSize: 18,
-                fontWeight: '600',
-                marginTop:20
+                fontSize: 20,
+                fontWeight: '900',
+                margin:20
             }}>Redeem Expired</p>
 
             <div style={{width:'90%', marginTop:20}}>
-                <p style={{
-                    fontSize: 16,
-                    fontWeight: '500',
-                }}> In order to settle your position we need to approve spending your entire synthetic token balance.</p>
-
+                <p style={{fontWeight:'bold'}}>Step 1: Approve synthetic token burn</p>
+                <div style={{marginTop:-10, width:'100%', border: '1px solid rgb(235,27,72)', borderRadius:'5px',padding:10 }} >
+                    <p style={{
+                        fontSize: 16,
+                        fontWeight: '500',
+                    }}> In order to settle your position we need to approve spending your entire synthetic token balance.</p>
+                </div>
                 <Button
                     onClick={() => { approve() }}
                     style={{width: '100%', marginTop: 10}}
                 >APPROVE</Button>
             </div>
 
-            <div style={{width:'90%', marginTop:20}}>
-                <p style={{
-                    fontSize: 16,
-                    fontWeight: '500',
-                }}> Burn synthetic tokens and get collateral tokens.</p>
-
+            <div style={{width:'90%', marginTop:10}}>
+                <p style={{marginTop:10, fontWeight:'bold'}}>Step 2: Redeem Tokens</p>
                 <Button
                     onClick={() => { settleExpired() }}
-                    style={{width: '100%', marginTop: 10}}
-                >BURN TOKENS</Button>
+                    style={{width: '100%', marginTop: -10}}
+                >REDEEM</Button>
             </div>
 
             <AlertModal

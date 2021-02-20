@@ -9,6 +9,7 @@ const products = [{
     divideFactor: "1000000000",
     empAddress:"0x2B7bf1e037025f613a51eA7Af67ee9418d500835",
     expires:"4/1/21 @ 0:00",
+    expirationTimestamp: "1617249600",
     multiplyFactor:"1",
     status:"active",
     project:"All Products",

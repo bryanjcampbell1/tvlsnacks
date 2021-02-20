@@ -87,16 +87,17 @@ function RedeemEarly(props) {
             flexDirection:'column',
             alignItems:'center'
         }}>
-            <p style={{
-                fontSize: 18,
-                fontWeight: '600',
-                marginTop:20
+            <p style={{fontSize: 20,
+                fontWeight: '900',
+                margin:20
             }}>Redeem Early</p>
 
             <div style={{width:'90%'}}>
-                <p >Token sponsors can redeem tokens even before the expiration date.</p>
-                <p >You cannot redeem an amount of tokens that will bring you below the minimum sponsor size of {props.minMint} without redeeming your entire position</p>
-                <Form>
+                <div style={{marginTop:-10, width:'100%', border: '1px solid rgb(235,27,72)', borderRadius:'5px',padding:10 }} >
+                    <p >Token sponsors can redeem tokens even before the expiration date.</p>
+                    <p >You cannot redeem an amount of tokens that will bring you below the minimum sponsor size of {props.minMint} without redeeming your entire position.</p>
+                </div>
+                <Form style={{marginTop:20}}>
                     <Form.Group controlId="formQuantityRedeem">
                         <Form.Control
                             onChange={(e)=> {setAmount(e.target.value)}}
@@ -104,18 +105,18 @@ function RedeemEarly(props) {
                             placeholder="Redeem Amount" />
                     </Form.Group>
                 </Form>
-
+                <p style={{fontWeight:'bold'}}>Step 1: Approve synthetic token burn</p>
                 <div style={{marginTop: 10}}>
                     <Button
                         onClick={() => { approve() }}
-                        style={{width: '100%'}}
+                        style={{width: '100%', marginTop:-10}}
                     >APPROVE</Button>
                 </div>
-
+                <p style={{marginTop:10, fontWeight:'bold'}}>Step 2: Redeem Tokens</p>
                 <div style={{marginTop: 10}}>
                     <Button
                         onClick={() => { redeemEarly() }}
-                        style={{width: '100%'}}
+                        style={{width: '100%', marginTop:-10}}
                     >REDEEM EARLY</Button>
                 </div>
             </div>
