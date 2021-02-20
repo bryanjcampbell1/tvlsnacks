@@ -65,11 +65,15 @@ function RedeemEarly(props) {
 
             let redeemAmount = props.web3.utils.toWei(amount.toString());
 
-            await emp.methods.redeem({ rawValue: redeemAmount }).send({from: fromAddress})
-                .then(function(receipt){
-                    // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
-                    console.log(receipt);
-                });
+            try{
+                await emp.methods.redeem({ rawValue: redeemAmount }).send({from: fromAddress});
+                props.updateBalances();
+
+            }
+            catch (e) {
+                console.log(e)
+            }
+
         }
         else{
             setAlertMessage("Connect Wallet to Continue");
@@ -91,6 +95,7 @@ function RedeemEarly(props) {
 
             <div style={{width:'90%'}}>
                 <p >Token sponsors can redeem tokens even before the expiration date.</p>
+                <p >You cannot redeem an amount of tokens that will bring you below the minimum sponsor size of {props.minMint} without redeeming your entire position</p>
                 <Form>
                     <Form.Group controlId="formQuantityRedeem">
                         <Form.Control

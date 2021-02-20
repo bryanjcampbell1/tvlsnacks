@@ -80,15 +80,17 @@ function Mint(props) {
             let cAmount = props.web3.utils.toWei(collateralAmount.toString(), 'mwei');
             let mAmount = props.web3.utils.toWei(mintAmount.toString());
 
-            await empContract.methods.create(
-                { rawValue:  cAmount},
-                { rawValue:  mAmount}
-            ).send({from: fromAddress})
-                .then(function(receipt){
-                    console.log("receipt: ")
-                    console.log(receipt)
-                    // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
-                });
+            try{
+                await empContract.methods.create(
+                    { rawValue:  cAmount},
+                    { rawValue:  mAmount}
+                ).send({from: fromAddress});
+
+                props.updateBalances();
+            }
+            catch(e){
+                console.log(e);
+            }
 
         }
         else{

@@ -5,6 +5,8 @@ import {ChevronLeft,DashCircle,PlusCircle} from 'react-bootstrap-icons';
 
 import './App.css';
 import Mint from "./Mint";
+import AlertModal from "./AlertModal";
+import SuccessModal from "./SuccessModal";
 
 function UMASynth(props){
 
@@ -16,6 +18,11 @@ function UMASynth(props){
     const [warning, setWarning] = useState("");
 
     const [currentPrice, setCurrentPrice] = useState(0);
+
+    const[showAlert, setShowAlert] = useState(false);
+    const[showSuccess, setShowSuccess] = useState(false);
+    const[alertMessage, setAlertMessage] = useState("");
+    const[successMessage, setSuccessMessage] = useState("");
 
     useEffect(() => {
         //
@@ -127,6 +134,10 @@ function UMASynth(props){
                               price={currentPrice}
                               empAddress={props.empAddress}
                               minMint={props.minMint}
+                              updateBalances={() => {
+                                  setSuccessMessage("Successfully minted. View your position in the My Portfolio tab.");
+                                  setShowSuccess(true);
+                              }}
                         />
                     </div>
                 </div>
@@ -134,6 +145,16 @@ function UMASynth(props){
                 <div></div>
             }
             </div>
+            <AlertModal
+                message={alertMessage}
+                show={showAlert}
+                onHide={() => setShowAlert(false)}
+            />
+            <SuccessModal
+                message={successMessage}
+                show={showSuccess}
+                onHide={() => setShowSuccess(false)}
+            />
         </div>
     );
 }

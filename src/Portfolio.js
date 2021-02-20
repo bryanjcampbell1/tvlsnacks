@@ -40,6 +40,8 @@ function Portfolio(props){
     const [priceId, setPriceId] = useState()
     const [currentPrice, setCurrentPrice] = useState(0);
 
+    const [touch,setTouch] = useState(0);
+
     useEffect(() => {
 
         let price = 0;
@@ -58,7 +60,7 @@ function Portfolio(props){
         if(props.web3 && synthName) {
             loadToken();
         }
-    },[props.web3,props, synthName]);
+    },[props.web3,props, synthName, touch]);
 
 
     const  loadToken = async () => {
@@ -176,6 +178,7 @@ function Portfolio(props){
                                             cRatio={minCRatio}
                                             price={currentPrice}
                                             minMint={minMint}
+                                            updateBalances={() => {setTouch(touch + 1)}}
                                          />
                                     : <div></div>
                                     }
@@ -192,6 +195,7 @@ function Portfolio(props){
                                             cRatio={minCRatio}
                                             collateralAmount={collateralAmount}
                                             price={currentPrice}
+                                            updateBalances={() => {setTouch(touch + 1)}}
                                         />
                                         :
                                         <div></div>
@@ -204,6 +208,8 @@ function Portfolio(props){
                                             collateralAddress={collateralAddress}
                                             collateralName={collateralName}
                                             synthName={synthName}
+                                            minMint={minMint}
+                                            updateBalances={() => {setTouch(touch + 1)}}
                                         />
                                         :
                                         <div></div>
@@ -216,6 +222,7 @@ function Portfolio(props){
                                             collateralAddress={collateralAddress}
                                             collateralName={collateralName}
                                             synthName={synthName}
+                                            updateBalances={() => {setTouch(touch + 1)}}
                                         />
                                             :
                                         <div></div>

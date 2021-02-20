@@ -61,11 +61,13 @@ function RedeemAtExpiration(props) {
             const fromAddress = (await props.web3.eth.getAccounts())[0];
             let emp = new props.web3.eth.Contract(empABI, props.empAddress);
 
-            await emp.methods.settleExpired().send({from: fromAddress})
-                .then(function(receipt){
-                    // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
-                    console.log(receipt);
-                });
+            try{
+                await emp.methods.settleExpired().send({from: fromAddress});
+                props.updateBalances();
+            }
+            catch (e) {
+                console.log(e);
+            }
         }
         else {
             setAlertMessage("Connect Wallet to Continue");
