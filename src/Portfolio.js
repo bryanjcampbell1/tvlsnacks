@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {Form,Button} from 'react-bootstrap';
 
 import Mint from './Mint'
-import ManageCollateral from "./ManageCollateral";
+import AddCollateral from "./AddCollateral";
+import WithdrawCollateral from "./WithdrawCollateral";
 import RedeemEarly from "./RedeemEarly";
 import RedeemAtExpiration from "./RedeemAtExpiration";
 
@@ -100,9 +101,7 @@ function Portfolio(props){
             setSynthBalance(parseFloat(parseFloat(result)/1000000000000000000).toFixed(3))
         });
 
-
     }
-
 
     return(
         <div>
@@ -155,7 +154,9 @@ function Portfolio(props){
                                     width: '100%',
                                 }}>
                                     <Button onClick={() => setAction('mint')} style={button1}>MINT</Button>
-                                    <Button onClick={() => setAction('manage')} style={button1}>MANAGE
+                                    <Button onClick={() => setAction('add')} style={button1}>ADD
+                                        COLLATERAL</Button>
+                                    <Button onClick={() => setAction('withdraw')} style={button1}>WITHDRAW
                                         COLLATERAL</Button>
                                     <Button onClick={() => setAction('redeemEarly')} style={button1}>REDEEM
                                         EARLY</Button>
@@ -182,8 +183,26 @@ function Portfolio(props){
                                          />
                                     : <div></div>
                                     }
-                                    {(action === 'manage') ?
-                                        <ManageCollateral
+                                    {(action === 'withdraw') ?
+                                        <WithdrawCollateral
+                                            web3={props.web3}
+                                            synthAddress={synthAddress}
+                                            empAddress={empAddress}
+                                            collateralAddress={collateralAddress}
+                                            collateralName={collateralName}
+                                            synthName={synthName}
+                                            synthBalance={synthBalance}
+                                            position={position}
+                                            cRatio={minCRatio}
+                                            collateralAmount={collateralAmount}
+                                            price={currentPrice}
+                                            updateBalances={() => {setTouch(touch + 1)}}
+                                        />
+                                        :
+                                        <div></div>
+                                    }
+                                    {(action === 'add') ?
+                                        <AddCollateral
                                             web3={props.web3}
                                             synthAddress={synthAddress}
                                             empAddress={empAddress}

@@ -6,7 +6,7 @@ import SuccessModal from "./SuccessModal";
 import {DashCircle, PlusCircle} from "react-bootstrap-icons";
 
 
-function ManageCollateral(props) {
+function WithdrawCollateral(props) {
 
     const [amount, setAmount] = useState(0);
 
@@ -16,71 +16,6 @@ function ManageCollateral(props) {
     const[successMessage, setSuccessMessage] = useState("");
 
     const [moreDetails, setMoreDetails] = useState(false);
-
-    const  approve = async() => {
-
-        if(props.web3) {
-
-            const network = await props.web3.eth.net.getId();
-
-            if (network !== 42) {
-                setAlertMessage("Connect Wallet to Mainnet");
-                setShowAlert(true);
-                return
-            }
-            let approveAmount = props.web3.utils.toWei(amount.toString(), 'mwei');
-            const fromAddress = (await props.web3.eth.getAccounts())[0];
-            const collateralToken = new props.web3.eth.Contract(erc20ABI,props.collateralAddress);
-
-            try{
-                await collateralToken.methods.approve(
-                    props.empAddress,
-                    approveAmount
-                ).send({from: fromAddress})
-            }
-            catch(e){
-                console.log("error: ", e)
-                return
-            }
-        }
-        else{
-            setAlertMessage("Connect Wallet to Continue");
-            setShowAlert(true);
-        }
-    }
-
-    const  addCollateral = async() => {
-
-        if(props.web3) {
-
-            const network = await props.web3.eth.net.getId();
-
-            if (network !== 42) {
-                setAlertMessage("Connect Wallet to Mainnet");
-                setShowAlert(true);
-                return
-            }
-
-            let amountCollateral = props.web3.utils.toWei(amount.toString(), 'mwei');
-            const fromAddress = (await props.web3.eth.getAccounts())[0];
-
-            let emp = new props.web3.eth.Contract(empABI, props.empAddress);
-
-            try{
-                await emp.methods.deposit({ rawValue: amountCollateral }).send({from: fromAddress});
-                props.updateBalances();
-            }
-            catch(e){
-                console.log("error: ", e)
-                return
-            }
-        }
-        else{
-            setAlertMessage("Connect Wallet to Continue");
-            setShowAlert(true);
-        }
-
-    }
 
     const  requestWithdraw = async() => {
 
@@ -154,7 +89,7 @@ function ManageCollateral(props) {
                 <p style={{fontSize: 20,
                     fontWeight: '900',
                     margin:20
-                }}>Manage Collateral</p>
+                }}>Withdraw Collateral</p>
             </div>
             <div>
                 {
@@ -203,48 +138,30 @@ function ManageCollateral(props) {
                 <div style={{width:'100%', textAlign:'start'}}>
                     <Form>
                         <Form.Group controlId="formQuantity">
-                            <Form.Label>Add Collateral</Form.Label>
                             <Form.Control
                                 onChange={(e)=> {setAmount(e.target.value)}}
                                 type="quantity"
                                 placeholder="Collateral Amount" />
                         </Form.Group>
                     </Form>
-                    <p>Step 1: Approve spending collateral</p>
-                    <Button
-                        onClick={() => { approve() }}
-                        style={{width: '100%'}}
-                    >APPROVE</Button>
-                    <p style={{marginTop:10}}>Step 2: Add Collateral</p>
-                    <Button
-                        onClick={() => { addCollateral() }}
-                        style={{width: '100%', marginTop: 10}}
-                    >DEPOSIT</Button>
-                </div>
-
-                <div style={{width:'100%', textAlign:'start'}}>
-                    <Form>
-                        <Form.Group controlId="formQuantity">
-                            <Form.Label>Withdraw Collateral</Form.Label>
-                            <Form.Control
-                                onChange={(e)=> {setAmount(e.target.value)}}
-                                type="quantity"
-                                placeholder="Collateral Amount" />
-                        </Form.Group>
-                    </Form>
-                    <p style={{
-                        fontSize: 16,
-                        fontWeight: '500',
-                    }}> In order to "Withdraw" at least 2 hours must have passed since initiating a "Request Withdraw" transaction.</p>
                     <p style={{marginTop:10}}>Step 1: Request Withdraw</p>
                     <Button
                         onClick={() => { requestWithdraw() }}
                         style={{width: '100%', marginTop:-10}}
                     >REQUEST WITHDRAW</Button>
                     <p style={{marginTop:10}}>Step 2: Withdraw</p>
+                    <div style={{marginTop:-10, width:420, display:'flex', justifyContent:'center', border: '1px solid rgb(235,27,72)', borderRadius:'5px',padding:10 }} >
+                        <p style={{
+                            fontSize: 16,
+                            fontWeight: '500',
+                        }}>
+                            In order to "Withdraw" at least 2 hours must have passed since initiating a "Request Withdraw" transaction.
+                        </p>
+                    </div>
+
                     <Button
                         onClick={() => { withdrawAfterLiveness() }}
-                        style={{width: '100%', marginTop:-10}}
+                        style={{width: '100%', marginTop:10}}
                     >WITHDRAW</Button>
 
                 </div>
@@ -263,4 +180,4 @@ function ManageCollateral(props) {
     );
 }
 
-export default ManageCollateral;
+export default WithdrawCollateral;
