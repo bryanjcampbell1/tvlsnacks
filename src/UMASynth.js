@@ -126,6 +126,7 @@ function UMASynth(props){
                               cRatio={props.cRatio}
                               price={currentPrice}
                               empAddress={props.empAddress}
+                              minMint={props.minMint}
                         />
                     </div>
                 </div>

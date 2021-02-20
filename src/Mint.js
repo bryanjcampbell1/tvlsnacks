@@ -124,6 +124,11 @@ function Mint(props) {
                     fontSize: 16,
                     fontWeight: '500',
                     marginTop:10
+                }}>Minimum Mint: {props.minMint} Tokens</p>
+                <p style={{
+                    fontSize: 16,
+                    fontWeight: '500',
+                    marginTop:10
                 }}>Minimum Collateral Ratio: {props.cRatio}</p>
                 <p style={{
                     fontSize: 16,

@@ -1,6 +1,7 @@
 
 const products = [{
     minCollateralRatio:'1.25',
+    minMint:'3',
     priceId: 'DEFI_PULSE_TOTAL_TVL',
     collateralAddress: "0xe22da380ee6b445bb8273c81944adeb6e8450422",
     collateralToken:"KUSD",

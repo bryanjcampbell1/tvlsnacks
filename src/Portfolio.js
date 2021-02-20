@@ -19,6 +19,7 @@ function Portfolio(props){
     const [synthAddress, setSynthAddress] = useState('');
     const [collateralName, setCollateralName] = useState('');
     const [collateralAddress, setCollateralAddress] = useState('');
+    const [minMint,setMinMint] = useState(0);
 
     //Info on Position
     const [synthBalance, setSynthBalance] = useState(0);
@@ -70,6 +71,7 @@ function Portfolio(props){
         setCollateralAddress(synth.collateralAddress);
         setMinCRatio(synth.minCollateralRatio);
         setPriceId(synth.priceId);
+        setMinMint(synth.minMint);
 
         const network = await props.web3.eth.net.getId();
 
@@ -173,6 +175,7 @@ function Portfolio(props){
                                             synthName={synthName}
                                             cRatio={minCRatio}
                                             price={currentPrice}
+                                            minMint={minMint}
                                          />
                                     : <div></div>
                                     }
@@ -184,8 +187,11 @@ function Portfolio(props){
                                             collateralAddress={collateralAddress}
                                             collateralName={collateralName}
                                             synthName={synthName}
+                                            synthBalance={synthBalance}
+                                            position={position}
                                             cRatio={minCRatio}
                                             collateralAmount={collateralAmount}
+                                            price={currentPrice}
                                         />
                                         :
                                         <div></div>

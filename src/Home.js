@@ -36,6 +36,7 @@ function Home(props){
                                               prices={props.prices}
                                               cRatio={row.minCollateralRatio}
                                               empAddress={row.empAddress}
+                                              minMint={row.minMint}
                                         />
                                     </div>
                                 </Container>

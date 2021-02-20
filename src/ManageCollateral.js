@@ -152,12 +152,34 @@ function ManageCollateral(props) {
             }}>Manage Collateral</p>
 
             <div style={{width:'90%'}}>
+                <div style={{width:'90%',marginTop:30}}>
 
-                <p style={{
-                    fontSize: 16,
-                    fontWeight: '500',
-                    marginTop:10
-                }}>Collateral Type: {props.collateralName}</p>
+                    <p style={{
+                        fontSize: 16,
+                        fontWeight: '500',
+                        marginTop:10
+                    }}>{props.position} Minted Tokens</p>
+
+                    <p style={{
+                        fontSize: 16,
+                        fontWeight: '500',
+                        marginTop:10
+                    }}>{props.collateralAmount} {props.collateralName} Collateral</p>
+
+                    <p style={{
+                        fontSize: 16,
+                        fontWeight: '500',
+                        marginTop:10
+                    }}>My Collateral Ratio: {Number(props.collateralAmount/(props.price * props.synthBalance)).toFixed(2)}</p>
+
+                    <p style={{
+                        fontSize: 16,
+                        fontWeight: '500',
+                        marginTop:10
+                    }}>Min Collateral Ratio: {props.cRatio}</p>
+
+
+                </div>
 
                 <Form>
                     <Form.Group controlId="formQuantity">
@@ -185,20 +207,6 @@ function ManageCollateral(props) {
                     >REQUEST WITHDRAW</Button>
                 </div>
 
-            </div>
-
-            <div style={{width:'90%',marginTop:30}}>
-                <p style={{
-                    fontSize: 16,
-                    fontWeight: '500',
-                    marginTop:10
-                }}>Min Collateral Ratio: {props.cRatio}</p>
-
-                <p style={{
-                    fontSize: 16,
-                    fontWeight: '500',
-                    marginTop:10
-                }}>Collateral Amount: {props.collateralAmount}</p>
             </div>
 
             <div style={{width:'90%', marginTop:20}}>
