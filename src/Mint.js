@@ -29,6 +29,13 @@ function Mint(props) {
             }
 
             let amount = props.web3.utils.toWei(collateralAmount.toString(), 'mwei');
+
+            if(collateralAmount < Number(mintAmount * props.cRatio * Math.ceil(props.price * 100) / 100)){
+                setAlertMessage("Set collateral to a larger amount");
+                setShowAlert(true);
+                return
+            }
+
             const fromAddress = (await props.web3.eth.getAccounts())[0];
             const collateralToken = new props.web3.eth.Contract(erc20ABI,props.collateralAddress);
 
@@ -57,6 +64,12 @@ function Mint(props) {
 
             if (network !== 42) {
                 setAlertMessage("Connect Wallet to Mainnet");
+                setShowAlert(true);
+                return
+            }
+
+            if(collateralAmount < Number(mintAmount * props.cRatio * Math.ceil(props.price * 100) / 100)){
+                setAlertMessage("Set collateral to a larger amount");
                 setShowAlert(true);
                 return
             }
@@ -101,12 +114,22 @@ function Mint(props) {
                     fontSize: 16,
                     fontWeight: '500',
                     marginTop:10
-                }}>Collateral Type: {props.collateralName}</p>
+                }}>Collateral Type: {props.collateralName} </p>
+                <p style={{
+                    fontSize: 16,
+                    fontWeight: '500',
+                    marginTop:10
+                }}>Token Price: {Math.ceil(props.price * 100) / 100} &nbsp; {props.collateralName}</p>
                 <p style={{
                     fontSize: 16,
                     fontWeight: '500',
                     marginTop:10
                 }}>Minimum Collateral Ratio: {props.cRatio}</p>
+                <p style={{
+                    fontSize: 16,
+                    fontWeight: '500',
+                    marginTop:10
+                }}>Minimum Collateral Per Token: { props.cRatio * Math.ceil(props.price * 100) / 100}</p>
 
                 <Form>
                     <Form.Group controlId="formQuantityMint">
@@ -122,7 +145,7 @@ function Mint(props) {
                         <Form.Control
                             onChange={(e)=> {setCollateralAmount(e.target.value)}}
                             type="quantity"
-                            placeholder="Collateral Amount" />
+                            placeholder={`Enter ${props.collateralName} More Than ${mintAmount * props.cRatio * Math.ceil(props.price * 100) / 100}`} />
                     </Form.Group>
                 </Form>
 

@@ -34,6 +34,8 @@ function Home(props){
                                               multiplyBy={Number(row.multiplyFactor)}
                                               divideBy={Number(row.divideFactor)}
                                               prices={props.prices}
+                                              cRatio={row.minCollateralRatio}
+                                              empAddress={row.empAddress}
                                         />
                                     </div>
                                 </Container>

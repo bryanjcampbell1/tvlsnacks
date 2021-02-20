@@ -7,6 +7,8 @@ import RedeemEarly from "./RedeemEarly";
 import RedeemAtExpiration from "./RedeemAtExpiration";
 
 import {empABI,erc20ABI} from "./ABI";
+import AlertModal from "./AlertModal";
+import SuccessModal from "./SuccessModal";
 
 
 function Portfolio(props){
@@ -24,26 +26,58 @@ function Portfolio(props){
     const [collateralAmount, setCollateralAmount] = useState(0);
     const [minCRatio, setMinCRatio] = useState(0);
 
+    const[showAlert, setShowAlert] = useState(false);
+    const[showSuccess, setShowSuccess] = useState(false);
+    const[alertMessage, setAlertMessage] = useState("");
+    const[successMessage, setSuccessMessage] = useState("");
+
 
     const [action,setAction] = useState();
 
     const [activeDerivatives,setActiveDerivatives] = useState(props.derivativesList);
 
+    const [priceId, setPriceId] = useState()
+    const [currentPrice, setCurrentPrice] = useState(0);
 
     useEffect(() => {
+
+        let price = 0;
+        if((priceId === "DEFI_PULSE_TOTAL_TVL" && (props.prices.length != 0))){
+            price = props.prices.filter(project => project.priceId === "DEFI_PULSE_TOTAL_TVL" )[0].price;
+        }
+        else if((priceId === "SUSHIUNI_TVL" && (props.prices.length != 0))){
+            price = props.prices.filter(project => project.priceId === "SUSHIUNI_TVL" )[0].price;
+        }
+        else{
+            console.log('no matching priceId found')
+        }
+        setCurrentPrice(price);
+
+
         if(props.web3 && synthName) {
             loadToken();
         }
-    },[props.web3, synthName]);
+    },[props.web3,props, synthName]);
 
 
     const  loadToken = async () => {
+
         let synth = activeDerivatives.filter(c => c.tokenName === synthName)[0];
 
         setEmpAddress(synth.empAddress);
         setSynthAddress(synth.tokenAddress);
         setCollateralName(synth.collateralToken);
         setCollateralAddress(synth.collateralAddress);
+        setMinCRatio(synth.minCollateralRatio);
+        setPriceId(synth.priceId);
+
+        const network = await props.web3.eth.net.getId();
+
+        if(network !== 42){
+                setAlertMessage("Connect Wallet to Mainnet");
+                setShowAlert(true);
+                return
+        }
 
         const myAddress = (await props.web3.eth.getAccounts())[0];
 
@@ -54,13 +88,6 @@ function Portfolio(props){
             setPosition(parseFloat(parseFloat(result.tokensOutstanding)/1000000000000000000).toFixed(3) );
             setCollateralAmount(parseFloat(parseFloat(result.rawCollateral)/1000000).toFixed(3));
         });
-
-       await empContract.methods.collateralRequirement().call({from: myAddress}, function(error, result){
-            console.log(result);
-            setMinCRatio(parseFloat(parseFloat(result)/1000000000000000000).toFixed(2))
-
-       });
-
 
        //Synth Info
         const synthToken = new props.web3.eth.Contract(erc20ABI,synth.tokenAddress);
@@ -145,6 +172,7 @@ function Portfolio(props){
                                             collateralName={collateralName}
                                             synthName={synthName}
                                             cRatio={minCRatio}
+                                            price={currentPrice}
                                          />
                                     : <div></div>
                                     }
@@ -214,6 +242,16 @@ function Portfolio(props){
                         <div style={{height: 800}}></div>
                     </div>
             }
+            <AlertModal
+                message={alertMessage}
+                show={showAlert}
+                onHide={() => setShowAlert(false)}
+            />
+            <SuccessModal
+                message={successMessage}
+                show={showSuccess}
+                onHide={() => setShowSuccess(false)}
+            />
         </div>
     );
 }

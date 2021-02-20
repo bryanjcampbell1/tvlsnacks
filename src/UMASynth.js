@@ -123,6 +123,9 @@ function UMASynth(props){
                               collateralAddress={props.collateralAddress}
                               collateralName={props.collateralToken}
                               synthName={props.tokenName}
+                              cRatio={props.cRatio}
+                              price={currentPrice}
+                              empAddress={props.empAddress}
                         />
                     </div>
                 </div>
