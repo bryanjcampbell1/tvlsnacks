@@ -4,6 +4,7 @@ import React, {useState} from "react";
 import {empABI,erc20ABI} from "./ABI";
 import AlertModal from "./AlertModal";
 import SuccessModal from "./SuccessModal";
+import {DashCircle, PlusCircle} from "react-bootstrap-icons";
 
 function Mint(props) {
 
@@ -14,6 +15,8 @@ function Mint(props) {
     const[showSuccess, setShowSuccess] = useState(false);
     const[alertMessage, setAlertMessage] = useState("");
     const[successMessage, setSuccessMessage] = useState("");
+
+    const [moreDetails, setMoreDetails] = useState(false);
 
     const  approve = async() => {
 
@@ -100,74 +103,94 @@ function Mint(props) {
     }
 
     return(
-        <div style={{
-            display:'flex',
-            flexDirection:'column',
-            alignItems:'center'
-        }}>
-            <p style={{fontSize: 18,
-                fontWeight: '600',
-                margin:20
-            }}>Mint Tokens</p>
+        <div style={{width:'100%', textAlign:'start', display:'flex', flexDirection:'column'}}>
+            <div style={{textAlign:'center'}}>
+                <p style={{fontSize: 20,
+                    fontWeight: '900',
+                    margin:20
+                }}>Mint Tokens</p>
+            </div>
+            <div >
 
-            <div style={{width:'90%', textAlign:'start'}}>
+                {
+                    (moreDetails)?
+                        <div>
+                            <div style={{display:'flex', justifyContent:'flex start'}}>
+                                <DashCircle style={{marginTop:5}} onClick={() => setMoreDetails(0)}/>
+                                <p  style={{marginLeft:6, fontSize: 16,
+                                    fontWeight: '600'}} onClick={() => setMoreDetails(0)}>Details</p>
+                            </div>
+                            <p style={{
+                                fontSize: 16,
+                                fontWeight: '500',
+                                marginTop:10
+                            }}>Collateral Type: {props.collateralName} </p>
+                            <p style={{
+                                fontSize: 16,
+                                fontWeight: '500',
+                                marginTop:10
+                            }}>Token Price: {Math.ceil(props.price * 100) / 100} &nbsp; {props.collateralName}</p>
+                            <p style={{
+                                fontSize: 16,
+                                fontWeight: '500',
+                                marginTop:10
+                            }}>Minimum Mint: {props.minMint} Tokens</p>
+                            <p style={{
+                                fontSize: 16,
+                                fontWeight: '500',
+                                marginTop:10
+                            }}>Minimum Collateral Ratio: {props.cRatio}</p>
+                            <p style={{
+                                fontSize: 16,
+                                fontWeight: '500',
+                                marginTop:10
+                            }}>Minimum Collateral Per Token: { props.cRatio * Math.ceil(props.price * 100) / 100}</p>
 
-                <p style={{
-                    fontSize: 16,
-                    fontWeight: '500',
-                    marginTop:10
-                }}>Collateral Type: {props.collateralName} </p>
-                <p style={{
-                    fontSize: 16,
-                    fontWeight: '500',
-                    marginTop:10
-                }}>Token Price: {Math.ceil(props.price * 100) / 100} &nbsp; {props.collateralName}</p>
-                <p style={{
-                    fontSize: 16,
-                    fontWeight: '500',
-                    marginTop:10
-                }}>Minimum Mint: {props.minMint} Tokens</p>
-                <p style={{
-                    fontSize: 16,
-                    fontWeight: '500',
-                    marginTop:10
-                }}>Minimum Collateral Ratio: {props.cRatio}</p>
-                <p style={{
-                    fontSize: 16,
-                    fontWeight: '500',
-                    marginTop:10
-                }}>Minimum Collateral Per Token: { props.cRatio * Math.ceil(props.price * 100) / 100}</p>
+                        </div>
+                        :
+                        <div>
+                            <div style={{display:'flex', justifyContent:'flex start'}}>
+                                <PlusCircle style={{ marginTop:5}} onClick={() => setMoreDetails(true)}/>
+                                <p style={{marginLeft:6, fontSize: 16,
+                                    fontWeight: '600'}} onClick={() => setMoreDetails(true)}>Details</p>
+                            </div>
+                        </div>
 
-                <Form>
-                    <Form.Group controlId="formQuantityMint">
-                        <Form.Control
-                            onChange={(e)=> {setMintAmount(e.target.value)}}
-                            type="quantity"
-                            placeholder="Minting Amount" />
-                    </Form.Group>
-                </Form>
+                }
 
-                <Form>
-                    <Form.Group controlId="formQuantityCollateral">
-                        <Form.Control
-                            onChange={(e)=> {setCollateralAmount(e.target.value)}}
-                            type="quantity"
-                            placeholder={`Enter ${props.collateralName} More Than ${mintAmount * props.cRatio * Math.ceil(props.price * 100) / 100}`} />
-                    </Form.Group>
-                </Form>
+                <div style={{width:'100%', textAlign:'start'}}>
+                    <Form>
+                        <Form.Group controlId="formQuantityMint">
+                            <Form.Control
+                                onChange={(e)=> {setMintAmount(e.target.value)}}
+                                type="quantity"
+                                placeholder="Minting Amount" />
+                        </Form.Group>
+                    </Form>
 
-                <div style={{marginTop: 10}}>
-                    <Button
-                        onClick={() => { approve() }}
-                        style={{width: '100%'}}
-                    >APPROVE</Button>
-                </div>
+                    <Form>
+                        <Form.Group controlId="formQuantityCollateral">
+                            <Form.Control
+                                onChange={(e)=> {setCollateralAmount(e.target.value)}}
+                                type="quantity"
+                                placeholder={`Collateral Amount > ${mintAmount * props.cRatio * Math.ceil(props.price * 100) / 100} ${props.collateralName}`} />
+                        </Form.Group>
+                    </Form>
 
-                <div style={{marginTop: 10}}>
-                    <Button
-                        onClick={() => { sponsorShares() }}
-                        style={{width: '100%'}}
-                    >MINT</Button>
+                    <p>Step 1: Approve spending collateral</p>
+                    <div>
+                        <Button
+                            onClick={() => { approve() }}
+                            style={{width: '100%'}}
+                        >APPROVE</Button>
+                    </div>
+                    <p style={{marginTop:10}}>Step 2: Mint shiny new tokens!</p>
+                    <div>
+                        <Button
+                            onClick={() => { sponsorShares() }}
+                            style={{width: '100%'}}
+                        >MINT</Button>
+                    </div>
                 </div>
             </div>
             <AlertModal
