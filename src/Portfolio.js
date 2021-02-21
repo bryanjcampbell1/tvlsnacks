@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Form,Button} from 'react-bootstrap';
+import {Container,Row,Col,Form,Button} from 'react-bootstrap';
 
 import Mint from './Mint'
 import AddCollateral from "./AddCollateral";
@@ -108,139 +108,142 @@ function Portfolio(props){
         <div>
             {
                 (props.web3) ?
-                <div>
-                    <div style={{display: 'flex', justifyContent: 'center'}}>
+
+                    <div style={{ width:'100%',display: 'flex', justifyContent: 'center'}}>
                         <div style={box}>
-                            <div style={{
-                                width: '40%'
-                            }}>
-                                <div style={{marginTop: -15}}>
-                                    <Form>
-                                        <Form.Group controlId="currency" style={{marginTop: 15}}>
-                                            <Form.Control as="select"
-                                                          onChange={(e) => setSynthName(e.target.value)}>
-                                                {
-                                                    activeDerivatives.map((item) =>
-                                                        <option key={item.id}>{item.tokenName}</option>
-                                                    )
-                                                }
-                                            </Form.Control>
-                                        </Form.Group>
-                                    </Form>
-                                </div>
 
-                                <div style={{display: 'flex', width: '100%'}}>
-                                    <div style={{
-                                        display: 'flex',
-                                        flexDirection: "column",
-                                        alignItems: "center",
-                                        width: '100%'
-                                    }}>
-                                        <p style={{
-                                            fontSize: 20,
-                                            fontWeight: '900',
+                            <Row>
+                                <Col xs={12} md={6}>
+                                    <div style={{width:'100%',display:'flex', justifyContent:'center'}}>
+                                        <div style={{width:'100%',maxWidth:340}}>
+                                            <div style={{marginTop: -15}}>
+                                                <Form>
+                                                    <Form.Group controlId="currency" style={{marginTop: 15}}>
+                                                        <Form.Control as="select"
+                                                                      onChange={(e) => setSynthName(e.target.value)}>
+                                                            {
+                                                                activeDerivatives.map((item) =>
+                                                                    <option key={item.id}>{item.tokenName}</option>
+                                                                )
+                                                            }
+                                                        </Form.Control>
+                                                    </Form.Group>
+                                                </Form>
+                                            </div>
 
-                                        }}>My Balance</p>
-                                        <p style={{
-                                            fontSize: 20,
-                                            fontWeight: '900',
-                                        }}>{synthBalance}</p>
+                                            <div style={{display: 'flex', width: '100%'}}>
+                                                <div style={{
+                                                    display: 'flex',
+                                                    flexDirection: "column",
+                                                    alignItems: "center",
+                                                    width: '100%'
+                                                }}>
+                                                    <p style={{
+                                                        fontSize: 20,
+                                                        fontWeight: '900',
+
+                                                    }}>My Balance</p>
+                                                    <p style={{
+                                                        fontSize: 20,
+                                                        fontWeight: '900',
+                                                    }}>{synthBalance}</p>
+                                                </div>
+
+                                            </div>
+
+                                            <div style={{
+                                                display: 'flex',
+                                                flexDirection: "column",
+                                                alignItems: "center",
+                                                width: '100%',
+                                            }}>
+                                                <Button onClick={() => setAction('mint')} style={button1}>MINT</Button>
+                                                <Button onClick={() => setAction('add')} style={button1}>
+                                                    ADD COLLATERAL
+                                                </Button>
+                                                <Button onClick={() => setAction('withdraw')} style={button1}>
+                                                    WITHDRAW COLLATERAL
+                                                </Button>
+                                                <Button onClick={() => setAction('redeem')} style={button1}>REDEEM TOKENS</Button>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                </div>
-
-                                <div style={{
-                                    display: 'flex',
-                                    flexDirection: "column",
-                                    alignItems: "center",
-                                    width: '100%',
-                                }}>
-                                    <Button onClick={() => setAction('mint')} style={button1}>MINT</Button>
-                                    <Button onClick={() => setAction('add')} style={button1}>
-                                        ADD COLLATERAL
-                                    </Button>
-                                    <Button onClick={() => setAction('withdraw')} style={button1}>
-                                        WITHDRAW COLLATERAL
-                                    </Button>
-                                    <Button onClick={() => setAction('redeem')} style={button1}>REDEEM TOKENS</Button>
-                                </div>
-
-                            </div>
-                            <div style={{
-                                width: '60%'
-                            }}>
-                                <div style={{marginLeft: 40, marginTop: -20}}>
-                                    {(action === 'mint') ?
-                                        <Mint
-                                            web3={props.web3}
-                                            synthAddress={synthAddress}
-                                            empAddress={empAddress}
-                                            collateralAddress={collateralAddress}
-                                            collateralName={collateralName}
-                                            synthName={synthName}
-                                            cRatio={minCRatio}
-                                            price={currentPrice}
-                                            minMint={minMint}
-                                            updateBalances={() => {setTouch(touch + 1)}}
-                                         />
-                                    : <div></div>
-                                    }
-                                    {(action === 'withdraw') ?
-                                        <WithdrawCollateral
-                                            web3={props.web3}
-                                            synthAddress={synthAddress}
-                                            empAddress={empAddress}
-                                            collateralAddress={collateralAddress}
-                                            collateralName={collateralName}
-                                            synthName={synthName}
-                                            synthBalance={synthBalance}
-                                            position={position}
-                                            cRatio={minCRatio}
-                                            collateralAmount={collateralAmount}
-                                            price={currentPrice}
-                                            updateBalances={() => {setTouch(touch + 1)}}
-                                        />
-                                        :
-                                        <div></div>
-                                    }
-                                    {(action === 'add') ?
-                                        <AddCollateral
-                                            web3={props.web3}
-                                            synthAddress={synthAddress}
-                                            empAddress={empAddress}
-                                            collateralAddress={collateralAddress}
-                                            collateralName={collateralName}
-                                            synthName={synthName}
-                                            synthBalance={synthBalance}
-                                            position={position}
-                                            cRatio={minCRatio}
-                                            collateralAmount={collateralAmount}
-                                            price={currentPrice}
-                                            updateBalances={() => {setTouch(touch + 1)}}
-                                        />
-                                        :
-                                        <div></div>
-                                    }
-                                    {(action === 'redeem') ?
-                                        <Redeem
-                                            web3={props.web3}
-                                            synthAddress={synthAddress}
-                                            empAddress={empAddress}
-                                            collateralAddress={collateralAddress}
-                                            collateralName={collateralName}
-                                            synthName={synthName}
-                                            minMint={minMint}
-                                            updateBalances={() => {setTouch(touch + 1)}}
-                                            expirationTimestamp={expirationTimestamp}
-                                        />
-                                        :
-                                        <div></div>
-                                    }
-                                </div>
-                            </div>
-                        </div>
+                                </Col>
+                                <Col xs={12} md={6} style={{width:'100%',display:'flex', justifyContent:'center'}}>
+                                    <div style={{width:'100%', maxWidth:340,}}>
+                                        <div >
+                                            {(action === 'mint') ?
+                                                <Mint
+                                                    web3={props.web3}
+                                                    synthAddress={synthAddress}
+                                                    empAddress={empAddress}
+                                                    collateralAddress={collateralAddress}
+                                                    collateralName={collateralName}
+                                                    synthName={synthName}
+                                                    cRatio={minCRatio}
+                                                    price={currentPrice}
+                                                    minMint={minMint}
+                                                    updateBalances={() => {setTouch(touch + 1)}}
+                                                />
+                                                : <div></div>
+                                            }
+                                            {(action === 'withdraw') ?
+                                                <WithdrawCollateral
+                                                    web3={props.web3}
+                                                    synthAddress={synthAddress}
+                                                    empAddress={empAddress}
+                                                    collateralAddress={collateralAddress}
+                                                    collateralName={collateralName}
+                                                    synthName={synthName}
+                                                    synthBalance={synthBalance}
+                                                    position={position}
+                                                    cRatio={minCRatio}
+                                                    collateralAmount={collateralAmount}
+                                                    price={currentPrice}
+                                                    updateBalances={() => {setTouch(touch + 1)}}
+                                                />
+                                                :
+                                                <div></div>
+                                            }
+                                            {(action === 'add') ?
+                                                <AddCollateral
+                                                    web3={props.web3}
+                                                    synthAddress={synthAddress}
+                                                    empAddress={empAddress}
+                                                    collateralAddress={collateralAddress}
+                                                    collateralName={collateralName}
+                                                    synthName={synthName}
+                                                    synthBalance={synthBalance}
+                                                    position={position}
+                                                    cRatio={minCRatio}
+                                                    collateralAmount={collateralAmount}
+                                                    price={currentPrice}
+                                                    updateBalances={() => {setTouch(touch + 1)}}
+                                                />
+                                                :
+                                                <div></div>
+                                            }
+                                            {(action === 'redeem') ?
+                                                <Redeem
+                                                    web3={props.web3}
+                                                    synthAddress={synthAddress}
+                                                    empAddress={empAddress}
+                                                    collateralAddress={collateralAddress}
+                                                    collateralName={collateralName}
+                                                    synthName={synthName}
+                                                    minMint={minMint}
+                                                    updateBalances={() => {setTouch(touch + 1)}}
+                                                    expirationTimestamp={expirationTimestamp}
+                                                />
+                                                :
+                                                <div></div>
+                                            }
+                                        </div>
+                                    </div>
+                                </Col>
+                            </Row>
                     </div>
-                    <div style={{height: 200}}></div>
                 </div>
                 :
                     <div style={{display: 'flex',justifyContent:'center'}}>
@@ -286,13 +289,15 @@ const button1 = {
 }
 
 const box = {
-    width:"70%",
+
     backgroundColor:'#ffb3b5',
     opacity: 0.82,
     border:'6px solid #ff7961',
     borderRadius:10,
     padding:20,
-    display:'flex',
+    width:'70%',
+    minWidth:340,
+    maxWidth: 700
 }
 
 const box2 = {
@@ -308,3 +313,177 @@ const box2 = {
 }
 
 export default Portfolio;
+
+/*
+<div>
+    {
+        (props.web3) ?
+            <div>
+                <div style={{display: 'flex', justifyContent: 'center'}}>
+                    <div style={box}>
+                        <div style={{
+                            width: '40%'
+                        }}>
+                            <div style={{marginTop: -15}}>
+                                <Form>
+                                    <Form.Group controlId="currency" style={{marginTop: 15}}>
+                                        <Form.Control as="select"
+                                                      onChange={(e) => setSynthName(e.target.value)}>
+                                            {
+                                                activeDerivatives.map((item) =>
+                                                    <option key={item.id}>{item.tokenName}</option>
+                                                )
+                                            }
+                                        </Form.Control>
+                                    </Form.Group>
+                                </Form>
+                            </div>
+
+                            <div style={{display: 'flex', width: '100%'}}>
+                                <div style={{
+                                    display: 'flex',
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    width: '100%'
+                                }}>
+                                    <p style={{
+                                        fontSize: 20,
+                                        fontWeight: '900',
+
+                                    }}>My Balance</p>
+                                    <p style={{
+                                        fontSize: 20,
+                                        fontWeight: '900',
+                                    }}>{synthBalance}</p>
+                                </div>
+
+                            </div>
+
+                            <div style={{
+                                display: 'flex',
+                                flexDirection: "column",
+                                alignItems: "center",
+                                width: '100%',
+                            }}>
+                                <Button onClick={() => setAction('mint')} style={button1}>MINT</Button>
+                                <Button onClick={() => setAction('add')} style={button1}>
+                                    ADD COLLATERAL
+                                </Button>
+                                <Button onClick={() => setAction('withdraw')} style={button1}>
+                                    WITHDRAW COLLATERAL
+                                </Button>
+                                <Button onClick={() => setAction('redeem')} style={button1}>REDEEM TOKENS</Button>
+                            </div>
+
+                        </div>
+                        <div style={{
+                            width: '60%'
+                        }}>
+                            <div style={{marginLeft: 40, marginTop: -20}}>
+                                {(action === 'mint') ?
+                                    <Mint
+                                        web3={props.web3}
+                                        synthAddress={synthAddress}
+                                        empAddress={empAddress}
+                                        collateralAddress={collateralAddress}
+                                        collateralName={collateralName}
+                                        synthName={synthName}
+                                        cRatio={minCRatio}
+                                        price={currentPrice}
+                                        minMint={minMint}
+                                        updateBalances={() => {setTouch(touch + 1)}}
+                                    />
+                                    : <div></div>
+                                }
+                                {(action === 'withdraw') ?
+                                    <WithdrawCollateral
+                                        web3={props.web3}
+                                        synthAddress={synthAddress}
+                                        empAddress={empAddress}
+                                        collateralAddress={collateralAddress}
+                                        collateralName={collateralName}
+                                        synthName={synthName}
+                                        synthBalance={synthBalance}
+                                        position={position}
+                                        cRatio={minCRatio}
+                                        collateralAmount={collateralAmount}
+                                        price={currentPrice}
+                                        updateBalances={() => {setTouch(touch + 1)}}
+                                    />
+                                    :
+                                    <div></div>
+                                }
+                                {(action === 'add') ?
+                                    <AddCollateral
+                                        web3={props.web3}
+                                        synthAddress={synthAddress}
+                                        empAddress={empAddress}
+                                        collateralAddress={collateralAddress}
+                                        collateralName={collateralName}
+                                        synthName={synthName}
+                                        synthBalance={synthBalance}
+                                        position={position}
+                                        cRatio={minCRatio}
+                                        collateralAmount={collateralAmount}
+                                        price={currentPrice}
+                                        updateBalances={() => {setTouch(touch + 1)}}
+                                    />
+                                    :
+                                    <div></div>
+                                }
+                                {(action === 'redeem') ?
+                                    <Redeem
+                                        web3={props.web3}
+                                        synthAddress={synthAddress}
+                                        empAddress={empAddress}
+                                        collateralAddress={collateralAddress}
+                                        collateralName={collateralName}
+                                        synthName={synthName}
+                                        minMint={minMint}
+                                        updateBalances={() => {setTouch(touch + 1)}}
+                                        expirationTimestamp={expirationTimestamp}
+                                    />
+                                    :
+                                    <div></div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style={{height: 200}}></div>
+            </div>
+            :
+            <div style={{display: 'flex',justifyContent:'center'}}>
+                <div style={box2}>
+                    <p style={{
+                        color:'rgb(235,27,72)',
+                        fontSize: 25,
+                        fontWeight: '900',
+                    }}>Unlock Wallet</p>
+                    <p style={{
+                        marginTop:-12,
+                        color:'rgb(235,27,72)',
+                        fontSize: 25,
+                        fontWeight: '900',}}>to </p>
+                    <p style={{
+                        marginTop:-12,
+                        color:'rgb(235,27,72)',
+                        fontSize: 25,
+                        fontWeight: '900',}}>Continue</p>
+                </div>
+                <div style={{height: 800}}></div>
+            </div>
+    }
+    <AlertModal
+        message={alertMessage}
+        show={showAlert}
+        onHide={() => setShowAlert(false)}
+    />
+    <SuccessModal
+        message={successMessage}
+        show={showSuccess}
+        onHide={() => setShowSuccess(false)}
+    />
+</div>
+
+ */

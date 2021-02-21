@@ -83,7 +83,6 @@ function App() {
 
         let allProjects = [];
 
-        //let apikey = process.env.REACT_APP_DEFIPULSE_API_KEY;
 
         await axios.get(`https://data-api.defipulse.com/api/v1/defipulse/api/MarketData?api-key=${apikey}`)
             .then(function (response) {
