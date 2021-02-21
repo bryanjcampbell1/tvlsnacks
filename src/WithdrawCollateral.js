@@ -30,9 +30,21 @@ function WithdrawCollateral(props) {
             }
 
             const fromAddress = (await props.web3.eth.getAccounts())[0];
-            let emp = new props.web3.eth.Contract(empABI, props.empAddress);
+            const emp = new props.web3.eth.Contract(empABI, props.empAddress);
 
-            let amountWithdraw = props.web3.utils.toWei(amount.toString(), 'mwei');
+            const amountWithdraw = props.web3.utils.toWei(amount.toString(), 'mwei');
+
+            //Dont allow if it will drop you below min collateral ratio
+            const newCollateralBalance = Number(Number(props.collateralAmount) - Number(amount));
+
+            console.log('newCollateral: ', newCollateralBalance);
+
+            if(newCollateralBalance < Number(props.price * props.position)){
+                setAlertMessage("Withdrawing this much collateral would cause liquidation. Choose a smaller amount.");
+                setShowAlert(true);
+                return
+            }
+
 
             try{
                 await emp.methods.requestWithdrawal({ rawValue:amountWithdraw}).send({from: fromAddress});
