@@ -1,5 +1,5 @@
 import {Button, Form} from "react-bootstrap";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 import {empABI,erc20ABI} from "./ABI";
 import AlertModal from "./AlertModal";
@@ -17,6 +17,45 @@ function Mint(props) {
     const[successMessage, setSuccessMessage] = useState("");
 
     const [moreDetails, setMoreDetails] = useState(false);
+    const [gcr, setGCR ] = useState(0);
+    const [minCollateralPerToken, setMinCollateralPerToken ] = useState(0);
+
+    useEffect(() => {
+        if(props.web3 && props.empAddress) {
+            getGCR();
+        }
+    },[props]);
+
+    const getGCR = async() => {
+
+        const network = await props.web3.eth.net.getId();
+
+        if (network !== 42) {
+            setAlertMessage("Connect Wallet to Mainnet");
+            setShowAlert(true);
+            return
+        }
+
+        const fromAddress = (await props.web3.eth.getAccounts())[0];
+        let empContract = await new props.web3.eth.Contract(empABI,props.empAddress);
+
+        let cumulativeFeeMultiplier = await  empContract.methods.cumulativeFeeMultiplier().call({from: fromAddress});
+        let rawTotalPositionCollateral = await  empContract.methods.rawTotalPositionCollateral().call({from: fromAddress});
+        let totalTokensOutstanding = await  empContract.methods.totalTokensOutstanding().call({from: fromAddress});
+
+        let GCR = Number(Number(cumulativeFeeMultiplier)*Number(rawTotalPositionCollateral)/(1000000 * Number(totalTokensOutstanding)));
+
+        setGCR(GCR);
+        //compare minCR and GCR to determine minCollateralPerToken
+        if(Math.ceil(GCR) > Math.ceil(props.cRatio * props.price )){
+            setMinCollateralPerToken(Math.ceil(GCR));
+        }
+        else{
+            setMinCollateralPerToken(Math.ceil(props.cRatio * props.price ));
+        }
+
+
+    }
 
     const  approve = async() => {
 
@@ -71,7 +110,9 @@ function Mint(props) {
                 return
             }
 
-            if(collateralAmount < Number(mintAmount * props.cRatio * Math.ceil(props.price * 100) / 100)){
+            //Calculate Minimum Collateral
+
+            if(collateralAmount < minCollateralPerToken){
                 setAlertMessage("Set collateral to a larger amount");
                 setShowAlert(true);
                 return
@@ -144,7 +185,12 @@ function Mint(props) {
                                 fontSize: 16,
                                 fontWeight: '500',
                                 marginTop:10
-                            }}>Minimum Collateral Per Token: { props.cRatio * Math.ceil(props.price * 100) / 100}</p>
+                            }}>Global Collateralization Ratio: {gcr}</p>
+                            <p style={{
+                                fontSize: 16,
+                                fontWeight: '500',
+                                marginTop:10
+                            }}>Minimum Collateral Per Token: {minCollateralPerToken}</p>
 
                         </div>
                         :
@@ -173,7 +219,7 @@ function Mint(props) {
                             <Form.Control
                                 onChange={(e)=> {setCollateralAmount(e.target.value)}}
                                 type="quantity"
-                                placeholder={`Collateral Amount > ${mintAmount * props.cRatio * Math.ceil(props.price * 100) / 100} ${props.collateralName}`} />
+                                placeholder={`Collateral Amount > ${mintAmount * minCollateralPerToken} ${props.collateralName}`} />
                         </Form.Group>
                     </Form>
 
