@@ -9,10 +9,17 @@ function Home(props){
 
     return(
         <div>
-            <div style={{textAlign:'center', marginTop:50}}>
+            <div className="d-none d-md-block" style={{textAlign:'center', marginTop:50}}>
                 <p className="bigHeroText">TVL SNACKS</p>
                 <p className="smHeroText">All you can eat derivatives</p>
             </div>
+
+
+            <div className="d-md-none" style={{textAlign:'center', marginTop:40}}>
+                <p className="bigHeroText-sm">TVL SNACKS</p>
+                <p className="smHeroText-sm" style={{marginTop:-15}}>All you can eat derivatives</p>
+            </div>
+
             <div>
                 {
                     props.derivativesList

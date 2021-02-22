@@ -41,6 +41,28 @@ body {
   font-size: 50px;
   color: rgb(235,27,72);
 }
+.bigHeroText-md{
+  font-family: 'Modak', cursive;
+  font-size: 70px;
+  color: rgb(235,27,72);
+}
+
+.smHeroText-md{
+  font-family: 'Modak', cursive;
+  font-size: 30px;
+  color: rgb(235,27,72);
+}
+.bigHeroText-sm{
+  font-family: 'Modak', cursive;
+  font-size: 52px;
+  color: rgb(235,27,72);
+}
+
+.smHeroText-sm{
+  font-family: 'Modak', cursive;
+  font-size: 22px;
+  color: rgb(235,27,72);
+}
 
 .leaf{
 
@@ -55,45 +77,45 @@ body {
   z-index: -1;
 }
 .leaf div:nth-child(1){
-  top:-20%;
+  top:-50%;
   left:20%;
   animation:fall 15s linear;
   animation-delay:20s;
 
 }
 .leaf div:nth-child(2){
-  top:-20%;
+  top:-50%;
   left:70%;
   animation:fall 30s linear;
   animation-delay:30s;
 }
 .leaf div:nth-child(3){
-  top:-20%;
+  top:-50%;
   left:50%;
   animation:fall 20s linear;
   animation-delay:10s;
 
 }
 .leaf div:nth-child(4){
-  top:-20%;
+  top:-50%;
   left:30%;
   animation:fall 18s linear;
   animation-delay:100s;
 }
 .leaf div:nth-child(5){
-  top:-20%;
+  top:-50%;
   left:95%;
   animation:fall 14s linear;
   animation-delay:80s;
 }
 .leaf div:nth-child(6){
-  top:-20%;
+  top:-50%;
   left:5%;
   animation:fall 16s linear;
   animation-delay:18s;
 }
 .leaf div:nth-child(7){
-  top:-20%;
+  top:-50%;
   left:80%;
   animation:fall 15s linear;
   animation-delay:60s;
@@ -130,3 +152,69 @@ body {
   transform: rotateX(180deg);
 }
 
+/* Position and sizing of burger button */
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  right: 30px;
+  top: 30px;
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+  background: rgb(235,27,72);
+}
+
+/* Color/shape of burger icon bars on hover*/
+.bm-burger-bars-hover {
+  background: #a90000;
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+  background: #bdc3c7;
+}
+
+/*
+Sidebar wrapper styles
+Note: Beware of modifying this element as it can break the animations - you should not need to touch it in most cases
+*/
+.bm-menu-wrap {
+  position: fixed;
+  height: 100%;
+}
+
+/* General sidebar styles */
+.bm-menu {
+  background: #373a47;
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
+}
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+  fill: #373a47;
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+  color: #b8b7ad;
+  padding: 0.8em;
+}
+
+/* Individual item */
+.bm-item {
+  display: inline-block;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}

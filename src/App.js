@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Web3 from "web3";
 import web3Modal from "./WalletModal";
 import {Button, Container} from 'react-bootstrap';
+import { slide as Menu } from 'react-burger-menu';
 
 import hamburger from './images/hamburger.png';
 import icecream from './images/icecream.png';
@@ -154,12 +155,27 @@ function App() {
             <div>
                 <img  src={tvlLogo} height="45px" />
             </div>
-            <div>
+            <div className="d-md-none" style={{height:30, width:36}}>
+            <Menu right>
+                <Button variant="link" onClick={() => {setPage('home')}}> Home </Button>
+                <Button variant="link" onClick={() => {setPage('portfolio')}}> My Portfolio </Button>
+                <Button variant="link" onClick={() => {setPage('about')}}> About </Button>
+                <Button  variant="link"
+                     onClick={loadWeb3}>
+                    {(!account)?
+                        "WALLET"
+                        :
+                        `${account.substring(0,6)}...${account.slice(account.length - 4)}`
+                    }
+                </Button>
+            </Menu>
+            </div>
+            <div className="d-none d-md-block" >
                 <Button variant="link" onClick={() => {setPage('home')}}> Home </Button>
                 <Button variant="link" onClick={() => {setPage('portfolio')}}> My Portfolio </Button>
                 <Button variant="link" onClick={() => {setPage('about')}}> About </Button>
             </div>
-            <div>
+            <div className="d-none d-md-block">
                 <Button  style={{
                     height:40,
                     width:175
