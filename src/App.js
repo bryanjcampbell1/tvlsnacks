@@ -84,7 +84,6 @@ function App() {
 
         let allProjects = [];
 
-
         await axios.get(`https://data-api.defipulse.com/api/v1/defipulse/api/MarketData?api-key=${apikey}`)
             .then(function (response) {
                 // handle success
@@ -163,7 +162,7 @@ function App() {
                 <Button  variant="link"
                      onClick={loadWeb3}>
                     {(!account)?
-                        "WALLET"
+                        "Wallet"
                         :
                         `${account.substring(0,6)}...${account.slice(account.length - 4)}`
                     }

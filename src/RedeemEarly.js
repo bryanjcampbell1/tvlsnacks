@@ -1,4 +1,4 @@
-import {Button, Form} from "react-bootstrap";
+import {Button, Form, Spinner} from "react-bootstrap";
 import React, {useState} from "react";
 import {empABI,erc20ABI} from "./ABI";
 import AlertModal from "./AlertModal";
@@ -12,6 +12,8 @@ function RedeemEarly(props) {
     const[showSuccess, setShowSuccess] = useState(false);
     const[alertMessage, setAlertMessage] = useState("");
     const[successMessage, setSuccessMessage] = useState("");
+
+    const [spinner, setSpinner] = useState(false)
 
     const  approve = async() => {
 
@@ -27,6 +29,7 @@ function RedeemEarly(props) {
                 return
             }
 
+            setSpinner(true);
             let redeemAmount = props.web3.utils.toWei(amount.toString());
             const fromAddress = (await props.web3.eth.getAccounts())[0];
             const synthToken = new props.web3.eth.Contract(erc20ABI,props.synthAddress);
@@ -36,15 +39,19 @@ function RedeemEarly(props) {
                     props.empAddress,
                     redeemAmount
                 ).send({from: fromAddress})
+                setSpinner(false);
+
             }
             catch(e){
                 console.log("error: ", e)
+                setSpinner(false);
                 return
             }
         }
         else{
             setAlertMessage("Connect Wallet to Continue");
             setShowAlert(true);
+            setSpinner(false);
         }
     }
 
@@ -60,6 +67,7 @@ function RedeemEarly(props) {
                 return
             }
 
+            setSpinner(true);
             const fromAddress = (await props.web3.eth.getAccounts())[0];
             let emp = new props.web3.eth.Contract(empABI, props.empAddress);
 
@@ -72,12 +80,14 @@ function RedeemEarly(props) {
             }
             catch (e) {
                 console.log(e)
+                setSpinner(false);
             }
 
         }
         else{
             setAlertMessage("Connect Wallet to Continue");
             setShowAlert(true);
+            setSpinner(false);
         }
     }
 
@@ -119,6 +129,16 @@ function RedeemEarly(props) {
                         style={{width: '100%', marginTop:-10}}
                     >REDEEM EARLY</Button>
                 </div>
+            </div>
+            <div>
+                {
+                    (spinner)?
+                        <div style={{zIndex:3,width:'100%',marginTop:-200, display:'flex', justifyContent:'center'}}>
+                            <Spinner animation="border" variant="danger" />
+                        </div>
+                        :
+                        <></>
+                }
             </div>
             <AlertModal
                 message={alertMessage}

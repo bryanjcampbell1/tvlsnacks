@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Row, Col, Form,Button} from 'react-bootstrap';
+import {Row, Col, Form, Button, Spinner} from 'react-bootstrap';
 import {empABI,erc20ABI} from "./ABI";
 import AlertModal from "./AlertModal";
 import SuccessModal from "./SuccessModal";
@@ -16,6 +16,7 @@ function WithdrawCollateral(props) {
     const[successMessage, setSuccessMessage] = useState("");
 
     const [moreDetails, setMoreDetails] = useState(false);
+    const [spinner, setSpinner] = useState(false)
 
     const  requestWithdraw = async() => {
 
@@ -28,6 +29,8 @@ function WithdrawCollateral(props) {
                 setShowAlert(true);
                 return
             }
+
+            setSpinner(true);
 
             const fromAddress = (await props.web3.eth.getAccounts())[0];
             const emp = new props.web3.eth.Contract(empABI, props.empAddress);
@@ -42,20 +45,24 @@ function WithdrawCollateral(props) {
             if(newCollateralBalance < Number(props.price * props.position)){
                 setAlertMessage("Withdrawing this much collateral would cause liquidation. Choose a smaller amount.");
                 setShowAlert(true);
+                setSpinner(false);
                 return
             }
 
 
             try{
                 await emp.methods.requestWithdrawal({ rawValue:amountWithdraw}).send({from: fromAddress});
+                setSpinner(false);
             }
             catch(e){
                 console.log(e);
+                setSpinner(false);
             }
         }
         else {
             setAlertMessage("Connect Wallet to Continue");
             setShowAlert(true);
+            setSpinner(false);
         }
 
     }
@@ -72,21 +79,26 @@ function WithdrawCollateral(props) {
                 return
             }
 
+            setSpinner(true);
+
             const fromAddress = (await props.web3.eth.getAccounts())[0];
             let emp = new props.web3.eth.Contract(empABI, props.empAddress);
 
             try{
                 await emp.methods.withdrawPassedRequest().send({from: fromAddress});
                 props.updateBalances();
+                setSpinner(false);
             }
             catch(e){
                 console.log(e);
+                setSpinner(false);
             }
 
         }
         else {
             setAlertMessage("Connect Wallet to Continue");
             setShowAlert(true);
+            setSpinner(false);
         }
     }
 
@@ -177,6 +189,16 @@ function WithdrawCollateral(props) {
                     >WITHDRAW</Button>
 
                 </div>
+            </div>
+            <div>
+                {
+                    (spinner)?
+                        <div style={{zIndex:3,width:'100%',marginTop:-200, display:'flex', justifyContent:'center'}}>
+                            <Spinner animation="border" variant="danger" />
+                        </div>
+                        :
+                        <></>
+                }
             </div>
             <AlertModal
                 message={alertMessage}

@@ -1,4 +1,4 @@
-import {Button} from "react-bootstrap";
+import {Button, Spinner} from "react-bootstrap";
 import React, {useState} from "react";
 import {empABI, erc20ABI} from "./ABI";
 import AlertModal from "./AlertModal";
@@ -10,6 +10,8 @@ function RedeemAtExpiration(props) {
     const[showSuccess, setShowSuccess] = useState(false);
     const[alertMessage, setAlertMessage] = useState("");
     const[successMessage, setSuccessMessage] = useState("");
+
+    const [spinner, setSpinner] = useState(false)
 
     const approve = async() => {
 
@@ -23,6 +25,8 @@ function RedeemAtExpiration(props) {
                 return
             }
 
+            setSpinner(true);
+
             const fromAddress = (await props.web3.eth.getAccounts())[0];
             const synthToken = new props.web3.eth.Contract(erc20ABI,props.synthAddress);
             const synthTokenBalance = await synthToken.methods.balanceOf(fromAddress).call({from: fromAddress});
@@ -32,15 +36,18 @@ function RedeemAtExpiration(props) {
                     props.empAddress,
                     synthTokenBalance
                 ).send({from: fromAddress})
+                setSpinner(false);
             }
             catch(e){
                 console.log("error: ", e)
+                setSpinner(false);
                 return
             }
 
         }
         else {
             setAlertMessage("Connect Wallet to Continue");
+            setSpinner(false);
             setShowAlert(true);
         }
 
@@ -58,20 +65,24 @@ function RedeemAtExpiration(props) {
                 return
             }
 
+            setSpinner(true);
             const fromAddress = (await props.web3.eth.getAccounts())[0];
             let emp = new props.web3.eth.Contract(empABI, props.empAddress);
 
             try{
                 await emp.methods.settleExpired().send({from: fromAddress});
                 props.updateBalances();
+                setSpinner(false);
             }
             catch (e) {
                 console.log(e);
+                setSpinner(false);
             }
         }
         else {
             setAlertMessage("Connect Wallet to Continue");
             setShowAlert(true);
+            setSpinner(false);
         }
     }
 
@@ -108,7 +119,16 @@ function RedeemAtExpiration(props) {
                     style={{width: '100%', marginTop: -10}}
                 >REDEEM</Button>
             </div>
-
+            <div>
+                {
+                    (spinner)?
+                        <div style={{zIndex:3,width:'100%',marginTop:-200, display:'flex', justifyContent:'center'}}>
+                            <Spinner animation="border" variant="danger" />
+                        </div>
+                        :
+                        <></>
+                }
+            </div>
             <AlertModal
                 message={alertMessage}
                 show={showAlert}

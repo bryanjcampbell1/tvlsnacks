@@ -64,7 +64,13 @@ function UMASynth(props){
                         </p>
                         <div style={{marginTop:40}}>
                             <Button
-                                    style={{width:300}}
+                                style={{width:'80%'}}
+                                onClick={() => setScreen(1)}
+                            >MINT</Button>
+                        </div>
+                        <div style={{marginTop:25}} >
+                            <Button
+                                    style={{width:'80%'}}
                                     href={`https://app.uniswap.org/#/swap?inputCurrency=${props.tokenAddress}&outputCurrency=ETH`}
                                     target="_blank"
                             >BUY / SELL</Button>
@@ -72,14 +78,7 @@ function UMASynth(props){
                         <br/>
                         <div>
                             <Button
-                                    style={{width:300}}
-                                    onClick={() => setScreen(1)}
-                            >MINT</Button>
-                        </div>
-                        <br/>
-                        <div>
-                            <Button
-                                    style={{width:300}}
+                                    style={{width:'80%'}}
                                     href={`https://app.uniswap.org/#/add/${props.tokenAddress}/ETH`}
                                     target="_blank"
                             >PROVIDE LIQUIDITY</Button>

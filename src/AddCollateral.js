@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Row, Col, Form,Button} from 'react-bootstrap';
+import {Row, Col, Form, Button, Spinner} from 'react-bootstrap';
 import {empABI,erc20ABI} from "./ABI";
 import AlertModal from "./AlertModal";
 import SuccessModal from "./SuccessModal";
@@ -16,6 +16,7 @@ function AddCollateral(props) {
     const[successMessage, setSuccessMessage] = useState("");
 
     const [moreDetails, setMoreDetails] = useState(false);
+    const [spinner, setSpinner] = useState(false)
 
     const  approve = async() => {
 
@@ -28,6 +29,9 @@ function AddCollateral(props) {
                 setShowAlert(true);
                 return
             }
+
+            setSpinner(true);
+
             let approveAmount = props.web3.utils.toWei(amount.toString(), 'mwei');
             const fromAddress = (await props.web3.eth.getAccounts())[0];
             const collateralToken = new props.web3.eth.Contract(erc20ABI,props.collateralAddress);
@@ -37,9 +41,12 @@ function AddCollateral(props) {
                     props.empAddress,
                     approveAmount
                 ).send({from: fromAddress})
+
+                setSpinner(false);
             }
             catch(e){
                 console.log("error: ", e)
+                setSpinner(false);
                 return
             }
         }
@@ -61,6 +68,7 @@ function AddCollateral(props) {
                 return
             }
 
+            setSpinner(true);
             let amountCollateral = props.web3.utils.toWei(amount.toString(), 'mwei');
             const fromAddress = (await props.web3.eth.getAccounts())[0];
 
@@ -69,9 +77,11 @@ function AddCollateral(props) {
             try{
                 await emp.methods.deposit({ rawValue: amountCollateral }).send({from: fromAddress});
                 props.updateBalances();
+                setSpinner(false);
             }
             catch(e){
                 console.log("error: ", e)
+                setSpinner(false);
                 return
             }
         }
@@ -155,6 +165,16 @@ function AddCollateral(props) {
                         style={{width: '100%', marginTop: -10}}
                     >DEPOSIT</Button>
                 </div>
+            </div>
+            <div>
+                {
+                    (spinner)?
+                        <div style={{zIndex:3,width:'100%',marginTop:-200, display:'flex', justifyContent:'center'}}>
+                            <Spinner animation="border" variant="danger" />
+                        </div>
+                        :
+                        <></>
+                }
             </div>
             <AlertModal
                 message={alertMessage}

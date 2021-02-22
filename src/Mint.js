@@ -1,4 +1,4 @@
-import {Button, Form} from "react-bootstrap";
+import {Button, Form, Spinner} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
 
 import {empABI,erc20ABI} from "./ABI";
@@ -19,6 +19,8 @@ function Mint(props) {
     const [moreDetails, setMoreDetails] = useState(false);
     const [gcr, setGCR ] = useState(0);
     const [minCollateralPerToken, setMinCollateralPerToken ] = useState(0);
+
+    const [spinner, setSpinner] = useState(false)
 
     useEffect(() => {
         if(props.web3 && props.empAddress) {
@@ -58,6 +60,7 @@ function Mint(props) {
     }
 
     const  approve = async() => {
+        setSpinner(true);
 
         //USDC - mwei because of 6 decimals
         if(props.web3){
@@ -67,6 +70,7 @@ function Mint(props) {
             if(network !== 42){
                 setAlertMessage("Connect Wallet to Mainnet");
                 setShowAlert(true);
+                setSpinner(false);
                 return
             }
 
@@ -75,6 +79,7 @@ function Mint(props) {
             if(collateralAmount < Number(mintAmount * props.cRatio * Math.ceil(props.price * 100) / 100)){
                 setAlertMessage("Set collateral to a larger amount");
                 setShowAlert(true);
+                setSpinner(false);
                 return
             }
 
@@ -89,12 +94,15 @@ function Mint(props) {
             }
             catch(e){
                 console.log("error: ", e)
+                setSpinner(false);
                 return
             }
+            setSpinner(false);
         }
         else{
             setAlertMessage("Connect Wallet to Continue");
             setShowAlert(true);
+            setSpinner(false);
         }
     }
 
@@ -112,9 +120,11 @@ function Mint(props) {
 
             //Calculate Minimum Collateral
 
+            setSpinner(true);
             if(collateralAmount < minCollateralPerToken){
                 setAlertMessage("Set collateral to a larger amount");
                 setShowAlert(true);
+                setSpinner(false);
                 return
             }
 
@@ -131,15 +141,19 @@ function Mint(props) {
                 ).send({from: fromAddress});
 
                 props.updateBalances();
+                setSpinner(false);
             }
             catch(e){
                 console.log(e);
+                setSpinner(false);
             }
+
 
         }
         else{
             setAlertMessage("Connect Wallet to Continue");
             setShowAlert(true);
+            setSpinner(false);
         }
     }
 
@@ -226,6 +240,7 @@ function Mint(props) {
                     <p style={{fontWeight:'bold'}}>Step 1: Approve spending collateral</p>
                     <div>
                         <Button
+                            disabled={spinner}
                             onClick={() => { approve() }}
                             style={{width: '100%'}}
                         >APPROVE</Button>
@@ -233,11 +248,22 @@ function Mint(props) {
                     <p style={{marginTop:10, fontWeight:'bold'}}>Step 2: Mint shiny new tokens!</p>
                     <div>
                         <Button
+                            disabled={spinner}
                             onClick={() => { sponsorShares() }}
                             style={{width: '100%'}}
                         >MINT</Button>
                     </div>
                 </div>
+            </div>
+            <div>
+                {
+                    (spinner)?
+                        <div style={{zIndex:3,width:'100%',marginTop:-250, display:'flex', justifyContent:'center'}}>
+                            <Spinner animation="border" variant="danger" />
+                        </div>
+                        :
+                        <></>
+                }
             </div>
             <AlertModal
                 message={alertMessage}
