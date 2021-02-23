@@ -18,3 +18,22 @@ const products = [{
 }];
 
 export default products;
+
+/* Mainnet
+{
+    minCollateralRatio:'1.25',
+    minMint:'3',
+    priceId: 'DEFI_PULSE_TOTAL_TVL',
+    collateralAddress: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+    collateralToken:"USDC",
+    expires:"4/1/21 @ 0:00",
+    expirationTimestamp: "1617249600",
+    status:"active",
+    project:"All",
+    description:"At expiration on April 1 2021, the price of this token settles to the sum of the TVL in USD of all projects listed on DeFi Pulse divided by 1,000,000,000",
+
+    empAddress:"0x2B7bf1e037025f613a51eA7Af67ee9418d500835",
+    tokenAddress:"0x47d4a1993cb87110aaf0876d73aab03c1d931665",
+    tokenName:"DEFI_PULSE_TOTAL_TVL-APRIL"
+}
+ */

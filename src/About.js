@@ -8,21 +8,20 @@ function About(){
     return(
         <div style={{height:800}}>
             <div>
-                <div style={{textAlign:'center',marginTop:50, height:200}}>
-                    <p style={{
-                        fontFamily: "Arial, Helvetica, sans-serif",
-                        fontSize: 45,
-                        fontVariant: "normal",
-                        fontWeight: '900',
-                        color:'rgb(235,27,72)'
-                    }}> TVL Derivatives For Your Favorite DeFi Protocols </p>
-                </div>
-                <Row >
+                <Row style={{marginTop:-50}}>
                     <Col xs={0} sm={1} md={2} lg={2}></Col>
                     <Col>
-                        <div style={{padding:20}}>
-
-                            <div style={{marginTop:100}}>
+                        <div style={{marginTop:60, padding:20}}>
+                            <div style={{textAlign:'center',marginTop:50, height:200}}>
+                                <p style={{
+                                    fontFamily: "Arial, Helvetica, sans-serif",
+                                    fontSize: 40,
+                                    fontVariant: "normal",
+                                    fontWeight: '900',
+                                    color:'rgb(235,27,72)'
+                                }}> TVL Derivatives For Your Favorite DeFi Protocols </p>
+                            </div>
+                            <div style={{marginTop:20}}>
                                 <p style={{color:'rgb(235,27,72)',fontSize:20,fontWeight:'bold'}}>What is a project's TVL?</p>
                                 <p style={{fontWeight:400, color:'rgb(235,27,72)',fontSize:18}}>
                                     TVL stands for Total Value Locked.  It is a measure of the combined value of deposited assets in a protocol and is often used as a metric to track how successful a platform is.
