@@ -247,22 +247,12 @@ function Portfolio(props){
                 </div>
                 :
                     <div style={{display: 'flex',justifyContent:'center'}}>
-                        <div style={box2}>
+                        <div className="d-flex justify-content-center align-items-center p-4" style={box2}>
                             <p style={{
                                 color:'rgb(235,27,72)',
                                 fontSize: 25,
                                 fontWeight: '900',
-                            }}>Unlock Wallet</p>
-                            <p style={{
-                                marginTop:-12,
-                                color:'rgb(235,27,72)',
-                                fontSize: 25,
-                                fontWeight: '900',}}>to </p>
-                            <p style={{
-                                marginTop:-12,
-                                color:'rgb(235,27,72)',
-                                fontSize: 25,
-                                fontWeight: '900',}}>Continue</p>
+                            }}>Unlock Wallet to Continue</p>
                         </div>
                         <div style={{height: 800}}></div>
                     </div>

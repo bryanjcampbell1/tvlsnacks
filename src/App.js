@@ -21,6 +21,7 @@ import Portfolio from "./Portfolio";
 import products from "./derivatives";
 
 import './App.css';
+import Footer from "./Footer";
 
 const axios = require('axios');
 
@@ -194,6 +195,8 @@ function App() {
               {(page === 'portfolio')? <Portfolio web3={web3} derivativesList={products} prices={currentPrices}/> :<div></div>}
               {(page === 'about')? <About/> :<div></div>}
           </div>
+          <div style={{height:200}}></div>
+          <Footer />
 
         <FallingFoods />
         <AlertModal
