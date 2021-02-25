@@ -1,12 +1,12 @@
 import firebase from 'firebase';
 var firebaseConfig = {
-    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-    databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
-    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.REACT_APP_FIREBASE_APP_ID
+    apiKey: "AIzaSyBNg0zwlT9v1VM8KE9LbRlJjoP7avNETHE",
+    authDomain: "tvl-snacks.firebaseapp.com",
+    projectId: "tvl-snacks",
+    storageBucket: "tvl-snacks.appspot.com",
+    messagingSenderId: "2079059380",
+    appId: "1:2079059380:web:4b7013ea08abcdecc5d6e1",
+    measurementId: "G-39TXP2LVES"
 };
 
 

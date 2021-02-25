@@ -32,12 +32,12 @@ function About(){
                                 <p style={{color:'rgb(235,27,72)',fontSize:20,fontWeight:'bold'}}>Why do we need derivatives of a project's Total Locked Value?</p>
                                 <p style={{color:'rgb(235,27,72)',fontSize:18}}>
                                     While many projects have a native token, speculation is the main driver of token prices.
-                                    TVL Synths offer a new way to invest in the success of a project, tied to the platform's actual use!
+                                    TVL Snacks offer a new way to invest in the success of a project, tied to the platform's actual use!
                                 </p>
                             </div>
 
                             <div style={{marginTop:40}}>
-                                <p style={{color:'rgb(235,27,72)',fontSize:20,fontWeight:'bold'}}>Are TVL Syths safe?</p>
+                                <p style={{color:'rgb(235,27,72)',fontSize:20,fontWeight:'bold'}}>Is TVL Snacks safe?</p>
                                 <p style={{color:'rgb(235,27,72)',fontSize:18}}>
                                     Yes.  All derivatives are powered by the UMA protocol audited by  Openzeppelin Security.
                                 </p>

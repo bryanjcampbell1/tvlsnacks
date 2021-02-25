@@ -3,6 +3,7 @@ import Web3 from "web3";
 import web3Modal from "./WalletModal";
 import {Button, Container} from 'react-bootstrap';
 import { slide as Menu } from 'react-burger-menu';
+import firebase from './firebase'
 
 import hamburger from './images/hamburger.png';
 import icecream from './images/icecream.png';
@@ -23,6 +24,9 @@ import products from "./derivatives";
 import './App.css';
 import Footer from "./Footer";
 
+require("firebase/functions");
+var functions = firebase.functions();
+
 const axios = require('axios');
 
 
@@ -31,7 +35,6 @@ function App() {
     const [web3, setWeb3] = useState();
     const [account, setAccount] = useState();
     const [page, setPage] = useState('home');
-    const [priceData, setPriceData] = useState([]);
     const [firstClick, setFirstClick] = useState(true);
     const[showAlert, setShowAlert] = useState(false);
     const[showSuccess, setShowSuccess] = useState(false);
@@ -83,71 +86,24 @@ function App() {
 
     const getCurrentPrices =  async() => {
 
-        let allProjects = [];
-
-        let apikey = process.env.REACT_APP_DEFIPULSE_API_KEY;
-        await axios.get(`https://data-api.defipulse.com/api/v1/defipulse/api/MarketData?api-key=${apikey}`)
-            .then(function (response) {
+        var getPriceData = firebase.functions().httpsCallable('getPrices');
+        getPriceData({})
+            .then((result) => {
+                console.log(result.data)
+                setCurrentPrices(result.data);
+            });
+/*
+        await axios.get('https://us-central1-tvl-snacks.cloudfunctions.net/getPrices')
+            .then((response) => {
                 // handle success
-                let allTVL = {
-                    "name": "All",
-                    "tvl": response.data.All.total
-                };
-                allProjects.push(allTVL);
-
+                console.log(response);
+                setCurrentPrices(response);
             })
             .catch(function (error) {
                 // handle error
                 console.log(error);
             })
-
-        await axios.get(`https://data-api.defipulse.com/api/v1/defipulse/api/GetProjects?api-key=${apikey}`)
-            .then(function (response) {
-                // handle success
-
-                response.data.forEach(project =>{
-                        let name = project.name;
-                        let tvl = project.value.tvl.USD.value;
-
-                        let projectTVL ={
-                            "name": name,
-                            "tvl": tvl
-                        }
-
-                    allProjects.push(projectTVL);
-
-                    }
-                )
-
-                let prices = []
-
-                let defipulseTVL_ALL = {
-                    priceId: 'DEFI_PULSE_TOTAL_TVL',
-                    price: Number(Number(allProjects.filter(project => project.name === 'All' )[0].tvl)/1000000000).toFixed(6)
-                }
-
-                prices.push(defipulseTVL_ALL);
-
-                let sushi = Number(allProjects.filter(project => project.name === 'SushiSwap' )[0].tvl);
-                let uni = Number(allProjects.filter(project => project.name === 'Uniswap' )[0].tvl);
-
-                let sushiuni_TVL = {
-                    priceId: 'SUSHIUNI_TVL',
-                    price: Number(10*sushi/uni).toFixed(6)
-                }
-
-                prices.push(sushiuni_TVL);
-                setCurrentPrices(prices);
-
-                console.log(prices)
-            })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
-
-        setPriceData(allProjects);
-
+ */
     }
 
   return (
