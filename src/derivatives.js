@@ -7,13 +7,13 @@ const products = [{
     collateralToken:"KUSD",
     description:"Kovan Test EMP",
     divideFactor: "1000000000",
-    empAddress:"0x2B7bf1e037025f613a51eA7Af67ee9418d500835",
+    empAddress:"0x2EDa37C78A2E17a96E2589bEf1fFAa471b266b8d",
     expires:"4/1/21 @ 0:00",
     expirationTimestamp: "1617249600",
     multiplyFactor:"1",
     status:"active",
-    project:"All Products",
-    tokenAddress:"0x47d4a1993cb87110aaf0876d73aab03c1d931665",
+    project:"All",
+    tokenAddress:"0x9c029e6607b38320e52c9aa19591f5040c09c0bf",
     tokenName:"KOVAN_TEST-APRIL"
 }];
 

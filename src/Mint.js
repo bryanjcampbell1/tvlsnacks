@@ -6,7 +6,12 @@ import AlertModal from "./AlertModal";
 import SuccessModal from "./SuccessModal";
 import {DashCircle, PlusCircle} from "react-bootstrap-icons";
 
+import { FileEarmark} from 'react-bootstrap-icons';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
+
 function Mint(props) {
+
+    //props.price not being passed through portfolio
 
     const [mintAmount, setMintAmount ] = useState(0);
     const [collateralAmount, setCollateralAmount] = useState(0);
@@ -21,6 +26,9 @@ function Mint(props) {
     const [minCollateralPerToken, setMinCollateralPerToken ] = useState(0);
 
     const [spinner, setSpinner] = useState(false)
+
+    const [mouseDown, setMouseDown] = useState(false)
+    const [hov, setHov] = useState(false)
 
     useEffect(() => {
         if(props.web3 && props.empAddress) {
@@ -45,8 +53,14 @@ function Mint(props) {
         let rawTotalPositionCollateral = await  empContract.methods.rawTotalPositionCollateral().call({from: fromAddress});
         let totalTokensOutstanding = await  empContract.methods.totalTokensOutstanding().call({from: fromAddress});
 
-        let GCR = Number(Number(cumulativeFeeMultiplier)*Number(rawTotalPositionCollateral)/(1000000 * Number(totalTokensOutstanding)));
+        console.log("cumulativeFeeMultiplier: ",cumulativeFeeMultiplier);
+        console.log("rawTotalPositionCollateral: ",rawTotalPositionCollateral);
+        console.log("totalTokensOutstanding: ",totalTokensOutstanding);
+        console.log("minCR: " ,props.cRatio * props.price)
 
+
+        let GCR = Number(Number(cumulativeFeeMultiplier)*Number(rawTotalPositionCollateral)/(1000000000000000000 * Number(totalTokensOutstanding)));
+        console.log("GCR : " ,GCR )
         setGCR(GCR);
         //compare minCR and GCR to determine minCollateralPerToken
         if(Math.ceil(GCR) > Math.ceil(props.cRatio * props.price )){
@@ -132,7 +146,7 @@ function Mint(props) {
             let empContract = new props.web3.eth.Contract(empABI, props.empAddress);
 
             let cAmount = props.web3.utils.toWei(collateralAmount.toString(), 'mwei');
-            let mAmount = props.web3.utils.toWei(mintAmount.toString());
+            let mAmount = props.web3.utils.toWei(mintAmount.toString(), 'mwei');
 
             try{
                 await empContract.methods.create(
@@ -175,6 +189,24 @@ function Mint(props) {
                                 <p  style={{marginLeft:6, fontSize: 16,
                                     fontWeight: 'bold'}} onClick={() => setMoreDetails(0)}>Details</p>
                             </div>
+                            <p style={{
+                                fontSize: 16,
+                                fontWeight: '500',
+                                marginTop:10}}
+                            >
+                                Synth Address:    {props.synthAddress.substring(0,12)}... &nbsp;
+                                <CopyToClipboard text={props.synthAddress}
+                                                 style={{marginTop:-10}}
+                                                 onMouseEnter={() => setHov(true)}
+                                                 onMouseLeave={() => setHov(false)}
+                                                 onMouseDown={() => setMouseDown(true) }
+                                                 onMouseUp={() => setMouseDown(false) }
+                                >
+                                    <FileEarmark color={(hov)? 'rgb(235,27,72)' : 'black'} size={20} />
+                                </CopyToClipboard>
+                            </p>
+
+
                             <p style={{
                                 fontSize: 16,
                                 fontWeight: '500',
