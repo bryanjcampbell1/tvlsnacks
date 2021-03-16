@@ -40,7 +40,7 @@ function Mint(props) {
 
         const network = await props.web3.eth.net.getId();
 
-        if (network !== 42) {
+        if (network !== 1) {
             setAlertMessage("Connect Wallet to Mainnet");
             setShowAlert(true);
             return
@@ -81,7 +81,7 @@ function Mint(props) {
 
             const network = await props.web3.eth.net.getId();
 
-            if(network !== 42){
+            if(network !== 1){
                 setAlertMessage("Connect Wallet to Mainnet");
                 setShowAlert(true);
                 setSpinner(false);
@@ -126,7 +126,7 @@ function Mint(props) {
 
             const network = await props.web3.eth.net.getId();
 
-            if (network !== 42) {
+            if (network !== 1) {
                 setAlertMessage("Connect Wallet to Mainnet");
                 setShowAlert(true);
                 return
