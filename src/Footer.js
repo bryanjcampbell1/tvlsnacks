@@ -64,7 +64,7 @@ function Footer() {
                                  style={(telHov) ? socialIconHov : socialIcon}/>
             </a>
 */}
-            <a href="https://t.me/TVLSnacks">
+            <a href="https://t.me/joinchat/mUNuc_4rn_81OGM5">
                 <FontAwesomeIcon icon={faTelegramPlane}
                                  onMouseEnter={() => setDHov(true)}
                                  onMouseLeave={() => setDHov(false)}

@@ -61,7 +61,7 @@ function Portfolio(props){
         if(props.web3 && synthName) {
             loadToken();
         }
-    },[props.web3,props, synthName, touch]);
+    });
 
 
     const  loadToken = async () => {
